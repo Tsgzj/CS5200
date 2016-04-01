@@ -238,7 +238,7 @@ CREATE TABLE `ShoppingCart` (
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ShoppingCart_ibfk_1` (`addedby`),
-  CONSTRAINT `ShoppingCart_ibfk_1` FOREIGN KEY (`addedby`) REFERENCES `Customer` (`id`)
+  CONSTRAINT `ShoppingCart_ibfk_1` FOREIGN KEY (`addedby`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -267,4 +267,4 @@ CREATE TABLE `User` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-01 19:10:32
+-- Dump completed on 2016-04-01 19:14:32
