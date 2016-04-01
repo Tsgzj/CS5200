@@ -1,0 +1,243 @@
+# Session [/session]
+## Login [GET]
++ Request (application/json)
+  + body
+    {
+      "username":"Divya"
+      "password":"Password123"
+    }
++ Response 200
+  This is not secure though
+  + body
+    {
+      "error":"nil"
+      "uid":1
+    }
++ Response 401
+  + body
+   {
+      "error":"Can not varify username/password"
+   }
+
+## Logout [DELETE]
++ Request (application/json)
+  + body
+   {
+     "uid":1
+   }
++ Response 200
+  + body
+   {
+     "error":"nil"
+   }
+
+# User [/user]
+## Get user info[GET]
++ Request (application/json)
+  + body
+    {
+      "uid":1
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+      "Contact":[
+        {"Contact":xxxx}
+      ]
+      "Payment":[
+        {
+          "CardNumber":123456789012
+          "Address":"360 Huntington Ave"
+          "ExpirationDate":11/04/2016
+          "Type":"Visa"
+        }
+      ]
+      "BillingAddress":[
+        {
+          "Street":"360 Huntington Ave"
+          "City":"BOSTON"
+          "State":"MA"
+          "ZipCode":02115
+        }
+      ]
+      "ShippingAddress":[
+        {
+          "Street":"360 Huntington Ave"
+          "City":"BOSTON"
+          "State":"MA"
+          "ZipCode":02115
+        }
+      ]
+      "Order":[
+        {
+          "OrderStatus":"Shipped"
+          "Delivery":[
+          ]
+        }
+      ]
+    }
++ Response 400
+  + body
+    {
+      "error":"Cannot find user info"
+    }
+## Create user[POST]
+This is optional since we don't have sign up use case
+I'll leave it blank for now
+## Delete user[DELETE]
+Same as create user
+
+# Inventory [/inventory]
+## Get inventory info[GET]
++ Request (application/json)
+  + body
+    {
+      "Title":"Keyboard"
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+      "Title":"Keyboard"
+      "Description":""
+      "Price":100.00
+      "Discount":0.95
+      "Categoty":"Electronics"
+      "Available":5
+    }
++ Response 400
+  + body
+    {
+      "error":"Cannot find inventory"
+    }
+
+## Add one inventory [POST]
+This is done by inventory manager
+So first need to verify identity
+We just use uid here which is insecure
++ Request (application/json)
+  + body
+   {
+     "uid":2
+     "Title":"Mouse"
+     "Description":""
+     "Price":68.00
+     "Discount":1.00
+     "Categoty":"Electronics"
+     "Available":15
+   }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
+
+# Shopping Cart [/shoppingcart]
+Allow user to view and edit his shopping cart
+## View customers shopping cart [GET]
++ Request (application/json)
+  + body
+    {
+      "uid":1
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+      "item":[
+        {
+          "Title":"Mouse"
+          "Description":""
+          "Price":68.00
+          "Discount":1.00
+          "Categoty":"Electronics"
+          "Available":15
+          "Quantiry":2
+        }
+        {
+          "Title":"Lamp"
+          "Description":""
+          "Price":99.00
+          "Discount":1.00
+          "Categoty":"Home"
+          "Available":12
+          "Quantiry":1
+        }
+      ]
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
+## Update shopping cart [POST]
++ Request (application/json)
+  + body
+   {
+     "uid":1
+     "itemid":1 (not sure about this)
+   }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
+## Delete shopping cart [DELETE]
++ Request (application/json)
+  + body
+    {
+      "uid":1
+      "itemid":1
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
+
+# Catelogy [/catelog]
+## Search by catelog[GET]
++ Request (application/json)
+  + body
+    {
+      "Catelog":"Electronics"
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+      "Inventory":[
+        {
+          "Title":"Mouse"
+          "Description":""
+          "Price":68.00
+          "Discount":1.00
+          "Categoty":"Electronics"
+          "Available":15
+        }
+        {
+          "Title":"Keyboard"
+          "Description":""
+          "Price":100.00
+          "Discount":0.95
+          "Categoty":"Electronics"
+          "Available":5
+        }
+      ]
+    }
