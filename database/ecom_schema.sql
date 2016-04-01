@@ -16,6 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Address`
+--
+
+DROP TABLE IF EXISTS `Address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cust_id` int(11) NOT NULL,
+  `street` varchar(20) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `state` enum('MA','NY','FL') NOT NULL,
+  `zip` int(5) NOT NULL,
+  `type` enum('shipping','billing') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cust_id` (`cust_id`),
+  CONSTRAINT `Address_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `Card`
 --
 
@@ -33,6 +54,24 @@ CREATE TABLE `Card` (
   UNIQUE KEY `cardnumber` (`cardnumber`),
   KEY `custid` (`custid`),
   CONSTRAINT `Card_ibfk_1` FOREIGN KEY (`custid`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `CartOrder`
+--
+
+DROP TABLE IF EXISTS `CartOrder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CartOrder` (
+  `id` int(11) NOT NULL,
+  `status` enum('pending','confirmed','shipped','delivered') NOT NULL,
+  `shipsto` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `CartOrder_ibfk_2` (`shipsto`),
+  CONSTRAINT `CartOrder_ibfk_2` FOREIGN KEY (`shipsto`) REFERENCES `Address` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `CartOrder_ibfk_1` FOREIGN KEY (`id`) REFERENCES `ShoppingCart` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -62,6 +101,22 @@ CREATE TABLE `CustomerContact` (
   `contact` varchar(10) NOT NULL,
   PRIMARY KEY (`custid`,`contact`),
   CONSTRAINT `CustomerContact_ibfk_1` FOREIGN KEY (`custid`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Delivery`
+--
+
+DROP TABLE IF EXISTS `Delivery`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Delivery` (
+  `id` int(11) NOT NULL,
+  `carrier` enum('ups','usps','fedex') NOT NULL,
+  `est_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `Delivery_ibfk_1` FOREIGN KEY (`id`) REFERENCES `CartOrder` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -135,6 +190,28 @@ CREATE TABLE `Item` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `Payment`
+--
+
+DROP TABLE IF EXISTS `Payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Payment` (
+  `cust_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `paidwith` int(11) NOT NULL,
+  `transaction_number` int(11) NOT NULL AUTO_INCREMENT,
+  UNIQUE KEY `transaction_number` (`transaction_number`),
+  KEY `cust_id` (`cust_id`),
+  KEY `order_id` (`order_id`),
+  KEY `paidwith` (`paidwith`),
+  CONSTRAINT `Payment_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Payment_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `CartOrder` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Payment_ibfk_3` FOREIGN KEY (`paidwith`) REFERENCES `Card` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `PaymentManager`
 --
 
@@ -160,8 +237,8 @@ CREATE TABLE `ShoppingCart` (
   `addedby` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `addedby` (`addedby`),
-  CONSTRAINT `ShoppingCart_ibfk_1` FOREIGN KEY (`addedby`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `ShoppingCart_ibfk_1` (`addedby`),
+  CONSTRAINT `ShoppingCart_ibfk_1` FOREIGN KEY (`addedby`) REFERENCES `Customer` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,4 +267,4 @@ CREATE TABLE `User` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-01 17:22:32
+-- Dump completed on 2016-04-01 19:10:32
