@@ -1,0 +1,218 @@
+A user has a username and a password. A user can be a customer, Payment Manager,
+Delivery Manager or a Inventory Manager.
+A customer may have multiple shipping or billing addresses and multiple contact
+numbers. Shipping addresses and billing addresses are different kind of
+addresses. An address has street, City as string and Zip code as integer. An
+Address also has a state which can be choosen from MA, NY and FL.
+A customer may have cards. A card had a card number, address, Expiration date
+and a Type. Card type can be one of Visa, Master or American Express.
+A customer can add items to the shopping cart from the inventory with the
+desired quantity. The shopping cart has total price of all the items.
+An product in an inventory has a title, price and available quantity and a
+category such as Fashion, Electronics, Home.It may have a description and a
+discount.
+An order is derived from the shopping cart and has an order status such as
+Pending, Confirmed, Shipped, Delivered. The customer makes a payment using a
+card for the order. The payment has a transaction number.
+Once an order is shipped it will have delivery information updated. The delivery
+information may have and estimated time and has a Carrier which can one of UPS,
+USPS and FedEx.
+
+
+1. Search for items through categories
+Description : A customer searches for items that he/she wishes to purchase. The
+customer may browse through different categories of items available on the
+website.
+Step by Step Description:
+[#User]:  The user selects appropriate category under which the item falls
+[#ECD]: The system returns the desired category selected.
+Explanation:
+This can be done by directly searching in Inventory class using the category
+enumeration.
+
+2. Search for an item through the search tab
+Description: A customer can search an item by entering its name in the search
+tab
+Step By Step Description:
+[#User]:  The user enters name of the item in the search tab
+[#ECD]: The system returns the results for the item that the user entered.
+Explanation:
+This can be done by directly searching in Inventory class using title.
+
+3.  Add Items to shopping cart:
+Description: The customer can add desired items to the shopping cart
+Step By Step Description:
+[#User]:  The customer clicks on “add item to shopping cart’ button on the
+item description page
+[#ECD]: The system displays the shopping cart with the item added to it
+Explanation:
+Shopping cart class is linked with customer and items. Item is a subclass of
+Inventory with quantity ordered.
+
+4. Delete Items from the shopping cart:
+Description: The customer can delete items from the shopping cart
+Step By Step Description:
+[#User]:  The customer clicks on “delete item”  button on the shopping cart
+page
+[#ECD]: The system displays the shopping cart with the item deleted from the
+list of items in the shopping cart
+Explanation:
+This can be done by deleting columns from shopping cart class. The item to be
+deleted can be find from item class.
+
+5. Checkout from the shopping cart:
+Description: The customer can proceed for payment using the checkout feature
+Step by Step Description:
+[#User]: The customer clicks on “checkout” button on shopping cart page
+[#ECD]: The system displays the payment page to the customer
+Explanation:
+Payment is an associated class between customers and orders. Order is a subclass
+of shopping cart with order status. A payment can be determined using {customer,
+order} pair.
+
+6. Confirm Payment
+Description: The customer can confirm payment after entering all the details
+Step by Step Description:
+[#User]: The customer enters all the details like billing address, shipping
+address, payment method, payment details and clicks on “confirm payment”
+button.
+[#ECD]: Displays order confirmation page when the transaction is successful
+Explanation:
+Payment is linked to card class and it is an association class of order which is
+linked to billing address and shipping address.
+
+7. View order details
+Description: The customer can view the details of the order he/she places
+Step by Step Description:
+[#User]: The user clicks on the “view orders” tab to view the order details
+and enters the order ID.
+[#ECD]: The system navigates the user to the respective order based on the
+unique order ID.
+Explanation:
+This can be done easily by searching orders class using customer id and order
+id.
+
+8. Check order status:
+Description: The customer can keep a track of the items by viewing the order
+status page
+Step By Step Description:
+[#User]: The customer clicks on the “check order status” tab
+[#ECD]: The system requests the order ID from the customer
+[#User]: The customer enters the unique Order ID.
+[#ECD]: The system displays the status of the order to the customer
+Explanation:
+This can be done easily by searching orders class using customer id and order
+id.
+
+9. View Item details
+Description: The customer can view details of the item that he/she desires to
+purchase
+Step by step Description:
+[#User]: The customer click on the items displayed through a particular search
+[#ECD]: The system displays the details of the item like name of the item,
+quantity available, cost of the item and discount on the item.
+[#User]: The customer browses through the details of the item.
+Explanation:
+This can be done easily by searching Inventory class.
+
+10. Add new item
+Description: The inventory Manager can add new item to the system
+Step by step Description:
+[#Inventory Manager]: Inventory Manager adds a new item and edits the detail
+[#ECD]: The system stores the new item
+Explanation:
+Inventory manager is linked with Inventoy class. He/She can add a new column in
+the Inventory class with the same category of his/her department.
+
+11. Update item Info
+Description: The inventory Manager can edit the detail of an item including
+title, price, discount and number available.
+Step by step Description:
+[#Inventory Manager]: Inventory Manager makes change to the product info
+[#ECD]: The system stores the updated information
+Explanation:
+Inventory manager is linked with Inventoy class. He/She can update an existing
+column in the Inventory class with the same category of his/her department.
+
+12. Check order status
+Description: The inventory Manager can check the status of a certain order in
+case customers have any concerns or for service.
+Step by step Description:
+[#Inventory Manager]:The Inventory Manager inputs the unique Order ID
+[#ECD]: The system returns the detail of the order including item detail,
+payment status and delivery status
+Explanation:
+The order can be searched using order id and it is linked with payment and
+delivery. It is also a subclass of shopping cart which is linked with item which
+is a subclass of Inventory class.
+
+13. Information Entry
+Description: The customer enters his payment information for the first time.
+Step-by-step Description:
+[#User] - The customer enters credit card information to his own profile
+records.
+[#ECD] - The System stores the information
+Explanation:
+The card class is linked to customer class, which has card number, expiration
+date and card type.
+
+14.  Query the payment information
+Description : The Customers wants to view the payment information which he has
+entered the system.
+Step-by-step Description:
+[#User] - A customer requests his payment information from the system
+[#ECD] - The system returns the information which was approved by the Payment
+Manager
+Explanation:
+This can be done by searching in the card class using customer id. We are not
+allowing one card to be registered to multible user from the security
+perspective.
+
+15. Validation of payment information
+Description - The Payment manager set checks for validating payment information
+Step-by-step Description:
+[#User]- A customer decides to proceed to payment
+[#Payment Manager]- Payment Manager enters the validation policy checks which
+need to be performed by the system.
+[#ECD]-The system performs a validation task
+Explanation:
+Payment is linked to order which has order status. A pending status means that
+the payment need to be checked. So this can be done by searching in order class
+using order status as a filter.
+
+16. Update  Payment Information
+Description: The customer enters his payment information which needs to be
+updated.
+Step-by-step Description:
+[#User] - The customer enters credit card information to his own profile records
+to update it.
+[#ECD] - The System updates the information
+Explanation:
+Card class is linked to customer, thus updating of a customer's card can be done
+by searching card class using customer id.
+
+17. Update item status
+Description: Once System records successfull payment, payment manager update the
+status of the purchased item.
+Step-by-step Description:
+[#ECD] :  The system returns items with received payment
+[#Payment Manager]: The Payment Manager updates item status to 'confirmed'
+Explanation:
+Payment class is linked to order class. Order status is in order class.
+
+18. Assign Orders
+Description: The Delivery Manager can assign any orders placed to various
+carriers
+Step by Step Description:
+[#Delivery Manager]: The Delivery Manager selects an unassigned order and
+requests the #ECD to assign it to a carrier
+[#ECD]: The system assigns the carrier based on the User’s shipping address
+and prompts the Delivery Manager for confirmation
+[#Delivery Manager]: The Delivery Manager accepts the assigned carrier
+[#ECD]: The System updates the order as shipped
+Explanation:
+Carrier is in the delivery class. Delivery class is linked with order class.
+Order class is linked to shipping address class. Order status is in order
+class.
+
+The rest use cases are optional.
