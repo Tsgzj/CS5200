@@ -117,6 +117,24 @@ CREATE TABLE `InventoryManager` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `Item`
+--
+
+DROP TABLE IF EXISTS `Item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Item` (
+  `quantity` int(11) NOT NULL,
+  `inv_id` int(11) NOT NULL DEFAULT '0',
+  `shopcart_id` int(11) NOT NULL,
+  PRIMARY KEY (`inv_id`,`shopcart_id`),
+  KEY `shopcart_id` (`shopcart_id`),
+  CONSTRAINT `Item_ibfk_1` FOREIGN KEY (`inv_id`) REFERENCES `Inventory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Item_ibfk_2` FOREIGN KEY (`shopcart_id`) REFERENCES `ShoppingCart` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `PaymentManager`
 --
 
@@ -172,4 +190,4 @@ CREATE TABLE `User` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-01 14:31:04
+-- Dump completed on 2016-04-01 17:22:32
