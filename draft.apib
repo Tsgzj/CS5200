@@ -93,7 +93,7 @@ Same as create user
 + Request (application/json)
   + body
     {
-      "iid":1
+      "Title":"Keyboard"
     }
 + Response 200
   + body
@@ -181,10 +181,35 @@ Allow user to view and edit his shopping cart
   + body
    {
      "uid":1
-     "item":[
-
-     ]
+     "itemid":1 (not sure about this)
    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
+## Delete shopping cart [DELETE]
++ Request (application/json)
+  + body
+    {
+      "uid":1
+      "itemid":1
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
 
 # Catelogy [/catelog]
 ## Search by catelog[GET]
