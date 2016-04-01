@@ -8,6 +8,7 @@
     }
 + Response 200
   This is not secure though
+  Front end can save it as cookie
   + body
     {
       "error":"nil"
@@ -42,6 +43,7 @@
   + body
     {
       "error":"nil"
+      "Username":"Divya"
       "Contact":[
         {"Contact":xxxx}
       ]
@@ -71,9 +73,10 @@
       ]
       "Order":[
         {
-          "OrderStatus":"Shipped"
-          "Delivery":[
-          ]
+          "Orderid":1
+        }
+        {
+          "Orderid":2
         }
       ]
     }
@@ -88,6 +91,26 @@ I'll leave it blank for now
 ## Delete user[DELETE]
 Same as create user
 
+
+# User Payment Info [/user/payment]
+## Get user payment info [GET]
++ Request (application/json)
+  + body
+    {
+      "uid":1
+    }
++ Response 200
+  + body
+    {
+      "Payment":[
+        "CardNumber":123456789012
+        "Address":"360 Huntington Ave"
+        "ExpirationDate":11/04/2016
+        "Type":"Visa"
+      ]
+    }
+## Updating [POST]
+
 # Inventory [/inventory]
 ## Get inventory info[GET]
 + Request (application/json)
@@ -98,13 +121,18 @@ Same as create user
 + Response 200
   + body
     {
-      "error":"nil"
-      "Title":"Keyboard"
-      "Description":""
-      "Price":100.00
-      "Discount":0.95
-      "Categoty":"Electronics"
-      "Available":5
+      "Inventory":[
+        {
+          "InventoryId":1
+          "error":"nil"
+          "Title":"Keyboard"
+          "Description":""
+          "Price":100.00
+          "Discount":0.95
+          "Categoty":"Electronics"
+          "Available":5
+        }
+      ]
     }
 + Response 400
   + body
@@ -120,6 +148,7 @@ We just use uid here which is insecure
   + body
    {
      "uid":2
+     "InventoryId":2
      "Title":"Mouse"
      "Description":""
      "Price":68.00
@@ -137,6 +166,11 @@ We just use uid here which is insecure
     {
       "error":"Cannot verify identity"
     }
++ Response 400
+  + body
+    {
+      "error":Database error
+    }
 
 # Shopping Cart [/shoppingcart]
 Allow user to view and edit his shopping cart
@@ -152,22 +186,24 @@ Allow user to view and edit his shopping cart
       "error":"nil"
       "item":[
         {
+          "InventoryId":2
           "Title":"Mouse"
           "Description":""
           "Price":68.00
           "Discount":1.00
           "Categoty":"Electronics"
           "Available":15
-          "Quantiry":2
+          "Quantity":2
         }
         {
+          "InventoryId":3
           "Title":"Lamp"
           "Description":""
           "Price":99.00
           "Discount":1.00
           "Categoty":"Home"
           "Available":12
-          "Quantiry":1
+          "Quantity":1
         }
       ]
     }
@@ -181,7 +217,8 @@ Allow user to view and edit his shopping cart
   + body
    {
      "uid":1
-     "itemid":1 (not sure about this)
+     "InventoryId":1
+     "Quantity":3
    }
 + Response 200
   + body
@@ -198,7 +235,7 @@ Allow user to view and edit his shopping cart
   + body
     {
       "uid":1
-      "itemid":1
+      "InventoryId":1
     }
 + Response 200
   + body
@@ -211,12 +248,24 @@ Allow user to view and edit his shopping cart
       "error":"Cannot verify identity"
     }
 
-# Catelogy [/catelog]
-## Search by catelog[GET]
+# Order [/order]
+## View detail [GET]
 + Request (application/json)
   + body
     {
-      "Catelog":"Electronics"
+      "uid":1
+      "OrderId":1
+     }
+## Checkout [POST]
++ Response 200
+  will have the order id
+
+# Category [/category]
+## Search by categoty[GET]
++ Request (application/json)
+  + body
+    {
+      "Category":"Electronics"
     }
 + Response 200
   + body
@@ -224,19 +273,21 @@ Allow user to view and edit his shopping cart
       "error":"nil"
       "Inventory":[
         {
+          "InventoryId":2
           "Title":"Mouse"
           "Description":""
           "Price":68.00
           "Discount":1.00
-          "Categoty":"Electronics"
+          "Category":"Electronics"
           "Available":15
         }
         {
+          "InventoryId":1
           "Title":"Keyboard"
           "Description":""
           "Price":100.00
           "Discount":0.95
-          "Categoty":"Electronics"
+          "Category":"Electronics"
           "Available":5
         }
       ]
