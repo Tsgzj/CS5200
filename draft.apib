@@ -12,7 +12,7 @@
   + body
     {
       "error":"nil"
-      "uid":1
+      "UserId":1
     }
 + Response 401
   + body
@@ -24,7 +24,7 @@
 + Request (application/json)
   + body
    {
-     "uid":1
+     "UserId":1
    }
 + Response 200
   + body
@@ -37,7 +37,7 @@
 + Request (application/json)
   + body
     {
-      "uid":1
+      "UserId":1
     }
 + Response 200
   + body
@@ -73,10 +73,10 @@
       ]
       "Order":[
         {
-          "Orderid":1
+          "CartOrderId
         }
         {
-          "Orderid":2
+          "CartOrderId":2
         }
       ]
     }
@@ -97,7 +97,7 @@ Same as create user
 + Request (application/json)
   + body
     {
-      "uid":1
+      "UserId":1
     }
 + Response 200
   + body
@@ -109,17 +109,39 @@ Same as create user
         "Type":"Visa"
       ]
     }
-## Updating [POST]
+## Adding new payment [POST]
 + Request (application/json)
   + body
     {
-      "uid":1
+      "UserId":1
       "Payment":[
         "CardNumber":123456789012
         "Address":"360 Huntington Ave"
         "ExpirationDate":11/04/2016
         "Type":"Visa"
       ]
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
+
+# UserPayment [/user/payment/[paymentid]]
+## Updating exisiting payment [POST]
++ Request
+  + body
+    {
+      "UserId":1
+      "CardNumber":123456789012
+      "Address":"360 Huntington Ave"
+      "ExpirationDate":11/04/2016
+      "Type":"Visa"
     }
 + Response 200
   + body
@@ -163,11 +185,11 @@ Same as create user
 ## Add one inventory [POST]
 This is done by inventory manager
 So first need to verify identity
-We just use uid here which is insecure
+We just use UserId here which is insecure
 + Request (application/json)
   + body
    {
-     "uid":2
+     "UserId":2
      "InventoryId":2
      "Title":"Mouse"
      "Description":""
@@ -193,7 +215,7 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
     {
-      "uid":1
+      "UserId":1
     }
 + Response 200
   + body
@@ -231,7 +253,7 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
    {
-     "uid":1
+     "UserId":1
      "InventoryId":1
      "Quantity":3
    }
@@ -249,7 +271,7 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
     {
-      "uid":1
+      "UserId":1
       "InventoryId":1
     }
 + Response 200
@@ -268,8 +290,8 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
     {
-      "uid":1
-      "OrderId":1
+      "UserId":1
+      "CartOrderId":1
      }
 + Response 200
   + body
@@ -292,14 +314,14 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
    {
-     "uid":1
+     "UserId":1
    }
 + Response 200
   will have the order id
   + body
     {
       "error":"nil"
-      "OrderId":1
+      "CartOrderId":1
     }
 + Response 401
   + body
