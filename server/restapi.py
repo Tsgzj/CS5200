@@ -64,7 +64,7 @@ def logout():
         return "no json received"
 
 @app.route("/user", methods=['GET'])
-def logout():
+def getuserinfo():
     
     app.logger.debug("JSON received...")
     app.logger.debug(request.json)
@@ -91,7 +91,7 @@ def logout():
         return "no json received"
 
 @app.route("/user/payment", methods=['GET'])
-def logout():
+def getcards():
     
     app.logger.debug("JSON received...")
     app.logger.debug(request.json)
@@ -104,7 +104,7 @@ def logout():
 
         uid = mydata.get("uid")
 
-        #TODO : Get details from uid
+        #TODO : Get details from uid to return list of cards
         resp = {"stub":"get uid details"}
 
         if (resp is None):
@@ -116,6 +116,8 @@ def logout():
         return jsonify(resp),200
     else:
         return "no json received"
+
+
 
 
 
