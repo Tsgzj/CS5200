@@ -110,6 +110,27 @@ Same as create user
       ]
     }
 ## Updating [POST]
++ Request (application/json)
+  + body
+    {
+      "uid":1
+      "Payment":[
+        "CardNumber":123456789012
+        "Address":"360 Huntington Ave"
+        "ExpirationDate":11/04/2016
+        "Type":"Visa"
+      ]
+    }
++ Response 200
+  + body
+    {
+      "error":"nil"
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
 
 # Inventory [/inventory]
 ## Get inventory info[GET]
@@ -139,7 +160,6 @@ Same as create user
     {
       "error":"Cannot find inventory"
     }
-
 ## Add one inventory [POST]
 This is done by inventory manager
 So first need to verify identity
@@ -165,11 +185,6 @@ We just use uid here which is insecure
   + body
     {
       "error":"Cannot verify identity"
-    }
-+ Response 400
-  + body
-    {
-      "error":Database error
     }
 
 # Shopping Cart [/shoppingcart]
@@ -256,9 +271,41 @@ Allow user to view and edit his shopping cart
       "uid":1
       "OrderId":1
      }
++ Response 200
+  + body
+    {
+      "error":"nil"
+      "Item":[
+        {
+          "InventoryId":3
+          "Title":"Lamp"
+          "Description":""
+          "Price":99.00
+          "Discount":1.00
+          "Categoty":"Home"
+          "Available":12
+          "Quantity":1
+        }
+      ]
+    }
 ## Checkout [POST]
++ Request (application/json)
+  + body
+   {
+     "uid":1
+   }
 + Response 200
   will have the order id
+  + body
+    {
+      "error":"nil"
+      "OrderId":1
+    }
++ Response 401
+  + body
+    {
+      "error":"Cannot verify identity"
+    }
 
 # Category [/category]
 ## Search by categoty[GET]
