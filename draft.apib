@@ -3,7 +3,7 @@
 + Request (application/json)
   + body
     {
-      "username":"Divya"
+      "username":"Divya",
       "password":"Password123"
     }
 + Response 200
@@ -11,7 +11,7 @@
   Front end can save it as cookie
   + body
     {
-      "error":"nil"
+      "error":"nil",
       "UserId":1
     }
 + Response 401
@@ -41,45 +41,47 @@
     }
 + Response 200
   + body
-    {
-      "error":"nil"
-      "Username":"Divya"
-      "Contact":[
-        {"Contact":xxxx}
-      ]
-      "Payment":[
-        {
-          "CardNumber":123456789012
-          "Address":"360 Huntington Ave"
-          "ExpirationDate":11/04/2016
-          "Type":"Visa"
-        }
-      ]
-      "BillingAddress":[
-        {
-          "Street":"360 Huntington Ave"
-          "City":"BOSTON"
-          "State":"MA"
-          "ZipCode":02115
-        }
-      ]
-      "ShippingAddress":[
-        {
-          "Street":"360 Huntington Ave"
-          "City":"BOSTON"
-          "State":"MA"
-          "ZipCode":02115
-        }
-      ]
-      "Order":[
-        {
-          "CartOrderId
-        }
-        {
-          "CartOrderId":2
-        }
-      ]
-    }
+  {
+   "error":"nil",
+   "Username":"Divya",
+   "Contact":[
+      {
+         "Contact":"xxxx"
+      }
+   ],
+   "Payment":[
+      {
+         "CardNumber":"123456789012",
+         "Address":"360 Huntington Ave",
+         "ExpirationDate":"11 / 04 / 2016",
+         "Type":"Visa"
+      }
+   ],
+   "BillingAddress":[
+      {
+         "Street":"360 Huntington Ave",
+         "City":"BOSTON",
+         "State":"MA",
+         "ZipCode":"02115"
+      }
+   ],
+   "ShippingAddress":[
+      {
+         "Street":"360 Huntington Ave",
+         "City":"BOSTON",
+         "State":"MA",
+         "ZipCode":"02115"
+      }
+   ],
+   "Order":[
+      {
+         "CartOrderId":1
+      },
+      {
+         "CartOrderId":2
+      }
+   ]
+}
 + Response 400
   + body
     {
@@ -103,22 +105,26 @@ Same as create user
   + body
     {
       "Payment":[
-        "CardNumber":123456789012
-        "Address":"360 Huntington Ave"
-        "ExpirationDate":11/04/2016
-        "Type":"Visa"
+        {
+          "CardNumber":"123456789012",
+          "Address":"360 Huntington Ave",
+          "ExpirationDate":"11/04/2016",
+          "Type":"Visa"
+        }
       ]
     }
 ## Adding new payment [POST]
 + Request (application/json)
   + body
     {
-      "UserId":1
+      "UserId":1,
       "Payment":[
-        "CardNumber":123456789012
-        "Address":"360 Huntington Ave"
-        "ExpirationDate":11/04/2016
-        "Type":"Visa"
+        {
+          "CardNumber":"123456789012",
+          "Address":"360 Huntington Ave",
+          "ExpirationDate":"11/04/2016",
+          "Type":"Visa"
+        }
       ]
     }
 + Response 200
@@ -132,15 +138,15 @@ Same as create user
       "error":"Cannot verify identity"
     }
 
-# UserPayment [/user/payment/[paymentid]]
+# UserPayment [/user/payment/[CardId]]
 ## Updating exisiting payment [POST]
 + Request
   + body
     {
-      "UserId":1
-      "CardNumber":123456789012
-      "Address":"360 Huntington Ave"
-      "ExpirationDate":11/04/2016
+      "UserId":1,
+      "CardNumber":"123456789012",
+      "Address":"360 Huntington Ave",
+      "ExpirationDate":"11/04/2016",
       "Type":"Visa"
     }
 + Response 200
@@ -166,13 +172,13 @@ Same as create user
     {
       "Inventory":[
         {
-          "InventoryId":1
-          "error":"nil"
-          "Title":"Keyboard"
-          "Description":""
-          "Price":100.00
-          "Discount":0.95
-          "Categoty":"Electronics"
+          "InventoryId":1,
+          "error":"nil",
+          "Title":"Keyboard",
+          "Description":"",
+          "Price":100.00,
+          "Discount":0.95,
+          "Categoty":"Electronics",
           "Available":5
         }
       ]
@@ -189,13 +195,13 @@ We just use UserId here which is insecure
 + Request (application/json)
   + body
    {
-     "UserId":2
-     "InventoryId":2
-     "Title":"Mouse"
-     "Description":""
-     "Price":68.00
-     "Discount":1.00
-     "Categoty":"Electronics"
+     "UserId":2,
+     "InventoryId":2,
+     "Title":"Mouse",
+     "Description":"",
+     "Price":68.00,
+     "Discount":1.00,
+     "Categoty":"Electronics",
      "Available":15
    }
 + Response 200
@@ -220,26 +226,26 @@ Allow user to view and edit his shopping cart
 + Response 200
   + body
     {
-      "error":"nil"
+      "error":"nil",
       "item":[
         {
-          "InventoryId":2
-          "Title":"Mouse"
-          "Description":""
-          "Price":68.00
-          "Discount":1.00
-          "Categoty":"Electronics"
-          "Available":15
+          "InventoryId":2,
+          "Title":"Mouse",
+          "Description":"",
+          "Price":68.00,
+          "Discount":1.00,
+          "Categoty":"Electronics",
+          "Available":15,
           "Quantity":2
-        }
+        },
         {
-          "InventoryId":3
-          "Title":"Lamp"
-          "Description":""
-          "Price":99.00
-          "Discount":1.00
-          "Categoty":"Home"
-          "Available":12
+          "InventoryId":3,
+          "Title":"Lamp",
+          "Description":"",
+          "Price":99.00,
+          "Discount":1.00,
+          "Categoty":"Home",
+          "Available":12,
           "Quantity":1
         }
       ]
@@ -253,8 +259,8 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
    {
-     "UserId":1
-     "InventoryId":1
+     "UserId":1,
+     "InventoryId":1,
      "Quantity":3
    }
 + Response 200
@@ -271,7 +277,7 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
     {
-      "UserId":1
+      "UserId":1,
       "InventoryId":1
     }
 + Response 200
@@ -290,22 +296,22 @@ Allow user to view and edit his shopping cart
 + Request (application/json)
   + body
     {
-      "UserId":1
+      "UserId":1,
       "CartOrderId":1
      }
 + Response 200
   + body
     {
-      "error":"nil"
+      "error":"nil",
       "Item":[
         {
-          "InventoryId":3
-          "Title":"Lamp"
-          "Description":""
-          "Price":99.00
-          "Discount":1.00
-          "Categoty":"Home"
-          "Available":12
+          "InventoryId":3,
+          "Title":"Lamp",
+          "Description":"",
+          "Price":99.00,
+          "Discount":1.00,
+          "Categoty":"Home",
+          "Available":12,
           "Quantity":1
         }
       ]
@@ -320,7 +326,7 @@ Allow user to view and edit his shopping cart
   will have the order id
   + body
     {
-      "error":"nil"
+      "error":"nil",
       "CartOrderId":1
     }
 + Response 401
@@ -339,24 +345,24 @@ Allow user to view and edit his shopping cart
 + Response 200
   + body
     {
-      "error":"nil"
+      "error":"nil",
       "Inventory":[
         {
-          "InventoryId":2
-          "Title":"Mouse"
-          "Description":""
-          "Price":68.00
-          "Discount":1.00
-          "Category":"Electronics"
+          "InventoryId":2,
+          "Title":"Mouse",
+          "Description":"",
+          "Price":68.00,
+          "Discount":1.00,
+          "Category":"Electronics",
           "Available":15
-        }
+        },
         {
-          "InventoryId":1
-          "Title":"Keyboard"
-          "Description":""
-          "Price":100.00
-          "Discount":0.95
-          "Category":"Electronics"
+          "InventoryId":1,
+          "Title":"Keyboard",
+          "Description":"",
+          "Price":100.00,
+          "Discount":0.95,
+          "Category":"Electronics",
           "Available":5
         }
       ]
