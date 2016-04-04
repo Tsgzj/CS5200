@@ -11,15 +11,17 @@ def index():
 
 @app.route("/session", methods=['GET'])
 def login():
-    
-    app.logger.debug("JSON received...")
-    app.logger.debug(request.json)
 
-    if not request.json or not 'username' in request.json or not 'password' in request.json:
+    app.logger.debug("JSON received...")
+    #app.logger.debug(request.args)
+
+    if not request.args or not request.args.get('username') or not request.args.get('password'):
         abort(400)
-    
-    if request.json:
-        mydata = request.json
+
+    if request.args:
+        #mydata = request.json
+        username = request.args.get('username')
+        password = request.args.get('password')
 
         #TODO: return user id
 
@@ -33,7 +35,7 @@ def login():
 	        	"error":"Can not verify username/password"
 	        }
 	        return jsonify(user_id),401
-        
+
         return jsonify(user_id),200
 
     else:
@@ -41,13 +43,13 @@ def login():
 
 @app.route("/session", methods=['DELETE'])
 def logout():
-    
+
     app.logger.debug("JSON received...")
     app.logger.debug(request.json)
 
     if not request.json:
         abort(400)
-    
+
     if request.json:
         mydata = request.json
 
@@ -65,13 +67,13 @@ def logout():
 
 @app.route("/user", methods=['GET'])
 def getuserinfo():
-    
+
     app.logger.debug("JSON received...")
     app.logger.debug(request.json)
 
     if not request.json:
         abort(400)
-    
+
     if request.json:
         mydata = request.json
 
@@ -92,13 +94,13 @@ def getuserinfo():
 
 @app.route("/user/payment", methods=['GET'])
 def getcards():
-    
+
     app.logger.debug("JSON received...")
     app.logger.debug(request.json)
 
     if not request.json:
         abort(400)
-    
+
     if request.json:
         mydata = request.json
 
