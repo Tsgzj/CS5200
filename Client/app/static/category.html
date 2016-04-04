@@ -1,0 +1,17 @@
+<div ui-view></div>
+<h3>List of Items</h3>
+<ul>
+    <li ng-repeat="i in items.Inventory">
+        <ul>
+            <li>
+                Title: {{i.Title}}
+            </li>
+            <li>
+                Price: {{i.Price}}
+            </li>
+            <li>
+                Price: {{i.Discount * i.Price}}
+            </li>
+        </ul>
+    </li>
+</ul>

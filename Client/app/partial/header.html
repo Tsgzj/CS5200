@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" ng-controller="BannerCtrl">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -23,9 +23,9 @@
                             <li role="menuitem"><a ui-sref="home">Home</a></li>
                         </ul>
                     </div>
-                    <input type="text" class="form-control" style="display: inline" placeholder="Search" name="search">
+                    <input type="text" class="form-control" ng-model="term" style="display: inline" placeholder="Search" name="search">
                     <div class="input-group-btn">
-                        <a class="btn btn-default" type="submit" ui-sref="inventory"><i class="glyphicon glyphicon-search"></i></a>
+                        <a class="btn btn-default" type="submit" ng-click="search();"><i class="glyphicon glyphicon-search"></i></a>
                     </div>
                 </div>
             </form>
@@ -37,3 +37,5 @@
         </div>
     </div>
 </nav>
+
+{{formData}}
