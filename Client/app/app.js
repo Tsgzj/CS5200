@@ -53,6 +53,22 @@ config(function($stateProvider, $urlRouterProvider) {
             });
         }
       })
+      .state('profile', {
+          url: "/profile",
+          params: {
+              userid: null
+          },
+          templateUrl: "static/profile.html",
+          controller: function($scope, $http, $stateParams) {
+              console.log("UserId", $stateParams.userid);
+              $http({
+                  method: "GET",
+                  url: server + "/user?userid=" + $stateParams.userid
+              }).then(function (response) {
+                  $scope.item = response.data;
+              })
+          }
+      })
       .state('inventory', {
         url: "/inventory",
         templateUrl: "static/inventory.html",
