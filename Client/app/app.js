@@ -15,7 +15,7 @@ config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
       .state('login', {
         url: "/login",
-        templateUrl: "login.html"
+        templateUrl: "static/category.html"
       })
       .state('electronics', {
         url: "/category",
@@ -70,8 +70,25 @@ config(function($stateProvider, $urlRouterProvider) {
       })
 });
 
-myApp.controller('BannerCtrl', ['$scope', '$log', '$state', function($scope, $log, $state) {
+myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', function($scope, $log, $state, $cookies) {
     $scope.search = function() {
         $state.go('inventory', {term: $scope.term});
+    }
+    $scope.checkLogin = function() {
+        var userid = $cookies.get("uid");
+        if(userid) {
+            $scope.uid = userid;
+            return false;
+        }
+        else
+            return true;
+    }
+    $scope.foo = function() {
+        $cookies.put("uid", "123");
+        console.log("Clicked");
+    }
+    $scope.bar = function() {
+        $cookies.remove("uid");
+        console.log("Remove cookies");
     }
 }]);

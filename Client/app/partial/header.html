@@ -30,9 +30,20 @@
                 </div>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-link"><a ui-sref="login">Hello, {{UserName}}</a></li>
-                <a ui-sref="login"> <img class="img-circle" style="max-width:28px; margin-top: 10px;"
-                                       src="img/user-not-log-in.jpg"></a>
+                <div class="login-group-btn">
+                    <button id="login-button" class="btn btn-primary" style="margin-top: 12px" ng-hide="!checkLogin()">
+                        Login
+                    </button>
+                </div>
+                <div uib-dropdown>
+                    <a ui-sref="login"> <img class="img-circle" style="max-width:28px; margin-top: 10px;"
+                                       src="img/user-not-log-in.jpg" uib-dropdown-toggle ng-hide="checkLogin()"></a>
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem"><a ui-sref="Profile">Profile</a></li>
+                        <li role="menuitem"><a ui-sref="Shoppingcart">Shopping Cart</a> </li>
+                        <li role="menuitem"><a ng-click="bar()">LogOut</a></li>
+                    </ul>
+                </div>
             </ul>
         </div>
     </div>
