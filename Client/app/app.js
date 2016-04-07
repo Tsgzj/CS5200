@@ -60,12 +60,11 @@ config(function($stateProvider, $urlRouterProvider) {
           },
           templateUrl: "static/profile.html",
           controller: function($scope, $http, $stateParams) {
-              console.log("UserId", $stateParams.userid);
               $http({
                   method: "GET",
                   url: server + "/user?userid=" + $stateParams.userid
               }).then(function (response) {
-                  $scope.item = response.data;
+                  $scope.profile = response.data;
               })
           }
       })
@@ -84,6 +83,10 @@ config(function($stateProvider, $urlRouterProvider) {
             });
         }
       })
+      .state('addpayment', {
+          url: "/addpayment",
+          templateUrl: "static/payment.html"
+      })
 });
 
 myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', function($scope, $log, $state, $cookies) {
@@ -101,10 +104,27 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', function
     }
     $scope.foo = function() {
         $cookies.put("uid", "123");
-        console.log("Clicked");
     }
     $scope.bar = function() {
         $cookies.remove("uid");
         console.log("Remove cookies");
     }
 }]);
+
+myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', function($scope, $http, $state, $cookies) {
+    $scope.addNewPayment = function() {
+        var requestData = {};
+        requestData["UserId"]="test",
+        requestData["CardNumber"]="123456789877",
+        requestData["Address"]="361 Huntington Ave",
+        requestData["ExpirationDate"]="04/11/2016",
+        requestData["Type"]="Visa"
+        $http.post(server + "/user/payment", requestData).
+        success(
+            $state.go('profile')
+        ).
+        error(
+            window.alert("Failed to update payment.")
+        )
+    }
+}])

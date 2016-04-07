@@ -1,0 +1,46 @@
+<div ui-view></div>
+<h3>User Profile</h3>
+<ul>
+    <ul>UserName: {{profile.Username}}</ul>
+    <ul>Contact:
+        <li ng-repeat="i in profile.Contact">
+            <ul>
+                {{i.Contact}}
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        Payment
+        <a ui-sref="addpayment">Add</a>
+        <li ng-repeat="i in profile.Payment">
+            <ul>
+                {{i.CardNumber}}, {{i.ExpirationDate}}
+                <a ui-sref="editpayment">Edit</a>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        Billing Addresses
+        <li ng-repeat="i in profile.BillingAddress">
+            <ul>
+                {{i.Street}}, {{i.City}} {{i.State}}, {{i.ZipCode}}
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        Shipping Addressses
+        <li ng-repeat="i in profile.ShippingAddress">
+            <ul>
+                {{i.Street}}, {{i.City}} {{i.State}}, {{i.ZipCode}}
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        Order History
+        <li ng-repeat="i in profile.Order">
+            <ul>
+                {{i.CartOrderId}}
+            </ul>
+        </li>
+    </ul>
+</ul>
