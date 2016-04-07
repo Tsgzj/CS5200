@@ -13,6 +13,10 @@ var myApp = angular.module('myApp', [
 config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/")
   $stateProvider
+      .state('root', {
+          url: "/root",
+          templateUrl: "index.html"
+      })
       .state('login', {
         url: "/login",
         templateUrl: "static/category.html"
@@ -107,6 +111,7 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', function
     }
     $scope.bar = function() {
         $cookies.remove("uid");
+        $state.go('root');
         console.log("Remove cookies");
     }
 }]);
