@@ -12,10 +12,11 @@
     <ul>
         Payment
         <a ui-sref="addpayment">Add</a>
+        <a ui-sref="detailpayment">Detail</a>
         <li ng-repeat="i in profile.Payment">
             <ul>
-                {{i.CardNumber}}, {{i.ExpirationDate}}
-                <a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>
+                {{i.CardNumber}}
+                <!--<a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>-->
             </ul>
         </li>
     </ul>

@@ -30,6 +30,8 @@ config(function($stateProvider, $urlRouterProvider) {
                 url: server + "/category?category=electronics"
             }).then(function (response) {
                 $scope.items = response.data;
+            }, function(response) {
+                window.alert("Something wrong happened, please try again.")
             });
         }
       })
@@ -42,6 +44,8 @@ config(function($stateProvider, $urlRouterProvider) {
                   url: server + "/category?category=fashion"
               }).then(function (response) {
                   $scope.items = response.data;
+              }, function(response) {
+                  window.alert("Something wrong happened, please try again.")
               });
           }
       })
@@ -54,6 +58,8 @@ config(function($stateProvider, $urlRouterProvider) {
                 url : server + "/category?category=home"
             }).then(function(response) {
                 $scope.items = response.data;
+            }, function(response) {
+                window.alert("Something wrong happened, please try again.")
             });
         }
       })
@@ -69,7 +75,9 @@ config(function($stateProvider, $urlRouterProvider) {
                   url: server + "/user?userid=" + $stateParams.userid
               }).then(function (response) {
                   $scope.profile = response.data;
-              })
+              }, function(response) {
+                  window.alert("Please log in first.")
+              });
           }
       })
       .state('inventory', {
@@ -84,12 +92,28 @@ config(function($stateProvider, $urlRouterProvider) {
                 url: server + "/inventory?title=" + $stateParams.term
             }).then(function (response) {
                 $scope.items = response.data;
+            }, function(response) {
+                window.alert("Something wrong happened, please try again.")
             });
         }
       })
       .state('addpayment', {
           url: "/addpayment",
           templateUrl: "static/addPayment.html"
+      })
+      .state('detailpayment', {
+          url: "/payment",
+          templateUrl: "static/detailPayment.html",
+          controller: function($scope, $http, $cookies) {
+              $http({
+                  method: "GET",
+                  url: server + "/user/payment?UserId=" + $cookies.get("uid")
+              }).then(function (response) {
+                  $scope.data = response.data;
+              }, function(response) {
+                  window.alert("Please log in first.")
+              });
+          }
       })
       .state('editpayment', {
           url: "/editpayment",

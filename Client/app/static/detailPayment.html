@@ -1,0 +1,14 @@
+<li ng-repeat="i in data.Payment">
+    <ul>
+        <li>
+            {{i.CardNumber}} {{i.Type}}
+        </li>
+        <li>
+            {{i.Address}}
+        </li>
+        <li>
+            {{i.ExpirationDate}}
+        </li>
+        <a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>
+    </ul>
+</li>
