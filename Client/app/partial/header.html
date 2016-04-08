@@ -31,9 +31,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <div class="login-group-btn">
-                    <button id="login-button" class="btn btn-primary" style="margin-top: 12px" ng-hide="!checkLogin()">
-                        <a ui-sref='login'>LogIn</a>
-                    </button>
+                    <a ui-sref='login' class="btn btn-primary" style="margin-top: 12px" ng-hide="!checkLogin()">LogIn</a>
                 </div>
                 <div uib-dropdown>
                     <a> <img class="img-circle" style="max-width:28px; margin-top: 10px;"
@@ -41,7 +39,7 @@
                     <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
                         <li role="menuitem"><a ui-sref="profile({userid: uid})">Profile</a></li>
                         <li role="menuitem"><a ui-sref="shoppingcart">Shopping Cart</a> </li>
-                        <li role="menuitem"><a ng-click="bar()">LogOut</a></li>
+                        <li role="menuitem"><a ng-click="logout()">LogOut</a></li>
                     </ul>
                 </div>
             </ul>

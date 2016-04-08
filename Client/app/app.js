@@ -11,8 +11,12 @@ var myApp = angular.module('myApp', [
   'ngCookies'
 ]).
 config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise("/")
+  $urlRouterProvider.otherwise("front")
   $stateProvider
+      .state('front', {
+          url: "/front",
+          templateUrl: "static/frontPage.html"
+      })
       .state('login', {
         url: "/login",
         templateUrl: "static/login.html"
@@ -143,10 +147,14 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http',
     $scope.foo = function() {
         $cookies.put("uid", "123");
     }
-    $scope.bar = function() {
-        $cookies.remove("uid");
-        //$state.go('root');
-        console.log("Remove cookies");
+    $scope.logout = function() {
+        $http.delete(server + "/session?uid=" + $cookies.get("uid")
+        ).success(
+            $cookies.remove("uid"),
+            $state.go('front')
+        ).error(
+            window.alert("Something wrong happend")
+        )
     }
     $scope.login = function() {
         $http({
