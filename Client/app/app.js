@@ -161,7 +161,7 @@ myApp = angular.module('myApp', [
                 });
             }
         })
-       .state('shoppingcart', {
+        .state('shoppingcart', {
       		url:"/shoppingcart",
       		templateUrl: "static/shoppingCart.html",
       		controller : function($scope,$http,$cookies){
@@ -182,7 +182,14 @@ myApp = angular.module('myApp', [
       				window.alert("Please Login first.")
       			});
       		}
-      })
+        })
+        .state('checkout', {
+            url:"/checkout",
+            templateUrl: "static/checkout.html",
+            controller: function($scope, $stateParams, $http) {
+                
+            }
+        })
 });
 
 myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
@@ -348,6 +355,14 @@ myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$
         else {
             window.alert("Cannot fullfill your request now")
         }
+    }
+    $scope.deleteCart = function (id) {
+        $http.delete(server + "/shoppingcart?userid=" + $cookies.get('uid') + "&inventoryid=" + id)
+            .success(
+                $state.go('shoppingcart')
+            ).error(
+            window.alert("Failed to delete item.")
+        )
     }
     $scope.preChk = function(aval, num) {
         if (isNaN(num)){
