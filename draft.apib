@@ -191,7 +191,7 @@ Same as create user
                   "Description":"",
                   "Price":100.00,
                   "Discount":0.95,
-                  "Categoty":"Electronics",
+                  "Category":"Electronics",
                   "Available":5
                 }
               ]
@@ -219,7 +219,7 @@ We just use UserId here which is insecure
                 "Description":"",
                 "Price":68.00,
                 "Discount":1.00,
-                "Categoty":"Electronics",
+                "Category":"Electronics",
                 "Available":15
             }
 
@@ -255,7 +255,7 @@ Allow user to view and edit his shopping cart
                   "Description":"",
                   "Price":68.00,
                   "Discount":1.00,
-                  "Categoty":"Electronics",
+                  "Category":"Electronics",
                   "Available":15,
                   "Quantity":2
                 },
@@ -265,7 +265,7 @@ Allow user to view and edit his shopping cart
                   "Description":"",
                   "Price":99.00,
                   "Discount":1.00,
-                  "Categoty":"Home",
+                  "Category":"Home",
                   "Available":12,
                   "Quantity":1
                 }
@@ -346,11 +346,16 @@ Allow user to view and edit his shopping cart
                   "Description":"",
                   "Price":99.00,
                   "Discount":1.00,
-                  "Categoty":"Home",
+                  "Category":"Home",
                   "Available":12,
                   "Quantity":1
                 }
-              ]
+              ],
+              "Status":"Confirmed",
+              "Delivery":{
+                  "Carrier": "UPS",
+                  "esttime": "04/11/2015"
+              }
             }
 
 ## Order [/order]
@@ -380,7 +385,7 @@ Allow user to view and edit his shopping cart
             }
 
 ## Category [/category{?category}]
-### Search by categoty[GET]
+### Search by category[GET]
 + Parameters
   + category (string)
 

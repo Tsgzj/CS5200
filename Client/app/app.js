@@ -97,6 +97,17 @@ config(function($stateProvider, $urlRouterProvider) {
             });
         }
       })
+      .state('detail', {
+          url: "/inventory/detail",
+          templateUrl: "static/inventoryDetail.html",
+          params: {
+              data: {}
+          },
+          controller: function($scope, $stateParams) {
+              //console.log($stateParams.data);
+              $scope.item = $stateParams.data;
+          }
+      })
       .state('addpayment', {
           url: "/addpayment",
           templateUrl: "static/addPayment.html"
@@ -189,7 +200,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
     }
     $scope.editPayment = function() {
         var requestData = {};
-        console.log($scope.cardNumber);
+        //console.log($scope.cardNumber);
         if($scope.preChk()) {
             requestData["UserId"] = $cookies.get("uid"),
             requestData["CardNumber"] = $scope.cardNumber,
@@ -275,5 +286,21 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
 
         // Check the range of the day
         return day > 0 && day <= monthLength[month - 1];
+    }
+}])
+
+myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
+    $scope.addToCart = function () {
+        var requestData = {};
+        if($scope.preChk()) {
+            $http.post(server + "shoppingcart", requestData).success(
+                $state.go('profile', {userid: $cookies.get("uid")})
+            ).error(
+                window.alert("Failed to update payment.")
+            )
+        }
+    }
+    $scope.precheck = function() {
+        
     }
 }])

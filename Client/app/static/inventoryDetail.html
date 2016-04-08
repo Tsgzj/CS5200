@@ -1,2 +1,24 @@
-## TODO
-Show inventory details here
+<div>
+    <ul>
+        <li>
+            Title: {{item.Title}}
+            Available: {{item.Available}}
+        </li>
+        <li>
+            Discription: {{item.Discription}}
+        </li>
+        <li>
+            Price: {{item.Price}}
+        </li>
+        <li>
+            Price: {{item.Discount * item.Price}}
+        </li>
+        <li>
+            Category: {{item.Category}}
+        </li>
+    </ul>
+    <form name="addtoshoppingcard" ng-controller="ShoppingCartCtrl">
+        <input type="text" ng-model="number" placeholder="number" name="number">
+        <button class="btn btn-default" type="submit" ng-click="addToCart()"> Add to cart</button>
+    </form>
+</div>
