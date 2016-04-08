@@ -1,0 +1,5 @@
+
+Addcard()
+
+{  "UserId": 1,  "Payment": [    {      "CardNumber": "123456789012",      "Address": "360 Huntington Ave",      "ExpirationDate": "11/04/2016",      "Type": "Visa"    },    {      "CardNumber": "684521321987",      "Address": "100 Jamaica Plain",      "ExpirationDate": "20/09/2016",      "Type": "MasterCard"    }]}
+

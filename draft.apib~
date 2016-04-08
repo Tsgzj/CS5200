@@ -1,0 +1,412 @@
+# CS5200 API Design Doc
+## Session [/session{?username,password}]
+### Login [GET]
++ Parameters
+    + username (string)
+    + password (string)
++ Response 200
+  This is not secure though
+  Front end can save it as cookie
+  + body
+
+            {
+                "error":"nil",
+                "UserId":1
+            }
+
++ Response 401
+  + body
+
+            {
+                "error":"Can not varify username/password"
+            }
+
+## Session [/session]
+### Logout [DELETE]
++ Request (application/json)
+  + body
+
+            {
+                "UserId":1
+            }
+
++ Response 200
+  + body
+
+            {
+                "error":"nil"
+            }
+
+## User [/user{?UserId}]
+### Get user info[GET]
++ Parameters
+  + UserId (number, required)
++ Response 200
+  + body
+
+            {
+               "error":"nil",
+               "Username":"Divya",
+               "Contact":[
+                  {
+                     "Contact":"xxxx"
+                  }
+               ],
+               "Payment":[
+                  {
+                     "CardNumber":"123456789012",
+                     "Address":"360 Huntington Ave",
+                     "ExpirationDate":"11 / 04 / 2016",
+                     "Type":"Visa"
+                  }
+               ],
+               "BillingAddress":[
+                  {
+                     "Street":"360 Huntington Ave",
+                     "City":"BOSTON",
+                     "State":"MA",
+                     "ZipCode":"02115"
+                  }
+               ],
+               "ShippingAddress":[
+                  {
+                     "Street":"360 Huntington Ave",
+                     "City":"BOSTON",
+                     "State":"MA",
+                     "ZipCode":"02115"
+                  }
+               ],
+               "Order":[
+                  {
+                     "CartOrderId":1
+                  },
+                  {
+                     "CartOrderId":2
+                  }
+               ]
+            }
+
++ Response 400
+  + body
+
+            {
+              "error":"Cannot find user info"
+            }
+
+
+## Create user[POST]
+This is optional since we don't have sign up use case
+I'll leave it blank for now
+
+## Delete user[DELETE]
+Same as create user
+
+
+## User Payment Info [/user/payment{?UserId}]
+### Get user payment info [GET]
++ Parameters
+    + UserId (number,required)
+
++ Response 200
+  + body
+
+            {
+              "Payment":[
+                {
+                  "CardNumber":"123456789012",
+                  "Address":"360 Huntington Ave",
+                  "ExpirationDate":"11/04/2016",
+                  "Type":"Visa"
+                }
+              ]
+            }
+
+## User Payment Indo [/user/payment]
+### Adding new payment [POST]
++ Request (application/json)
+  + body
+
+            {
+              "UserId":1,
+              "CardNumber":"123456789012",
+              "Address":"360 Huntington Ave",
+              "ExpirationDate":"11/04/2016",
+              "Type":"Visa"
+            }
+
++ Response 200
+  + body
+
+            {
+              "error":"nil"
+            }
++ Response 401
+  + body
+
+            {
+              "error":"Cannot verify identity"
+            }
+
+## UserPayment [/user/payment/{cardId}]
+### Updating exisiting payment [POST]
++ Request
+  + body
+
+            {
+              "UserId":1,
+              "CardNumber":"123456789012",
+              "Address":"360 Huntington Ave",
+              "ExpirationDate":"11/04/2016",
+              "Type":"Visa"
+            }
+
++ Response 200
+  + body
+
+            {
+              "error":"nil"
+            }
+
++ Response 401
+  + body
+
+            {
+              "error":"Cannot verify identity"
+            }
+
+## Inventory [/inventory{?title}]
+### Get inventory info[GET]
++ Parameters
+    + title (string, required)
+
++ Response 200
+  + body
+
+            {
+              "Inventory":[
+                {
+                  "InventoryId":1,
+                  "error":"nil",
+                  "Title":"Keyboard",
+                  "Description":"",
+                  "Price":100.00,
+                  "Discount":0.95,
+                  "Categoty":"Electronics",
+                  "Available":5
+                }
+              ]
+            }
+
++ Response 400
+  + body
+
+            {
+              "error":"Cannot find inventory"
+            }
+
+## Inventory [/inventory]
+### Add one inventory [POST]
+This is done by inventory manager
+So first need to verify identity
+We just use UserId here which is insecure
++ Request (application/json)
+  + body
+
+            {
+                "UserId":2,
+                "InventoryId":2,
+                "Title":"Mouse",
+                "Description":"",
+                "Price":68.00,
+                "Discount":1.00,
+                "Categoty":"Electronics",
+                "Available":15
+            }
+
++ Response 200
+  + body
+
+            {
+              "error":"nil"
+            }
+
++ Response 401
+  + body
+
+            {
+                "error":"Cannot verify identity"
+            }
+
+## Shopping Cart [/shoppingcart{?UserId}]
+Allow user to view and edit his shopping cart
+### View customers shopping cart [GET]
++ Parameters
+  + UserId (number, required)
+
++ Response 200
+  + body
+
+            {
+              "error":"nil",
+              "item":[
+                {
+                  "InventoryId":2,
+                  "Title":"Mouse",
+                  "Description":"",
+                  "Price":68.00,
+                  "Discount":1.00,
+                  "Categoty":"Electronics",
+                  "Available":15,
+                  "Quantity":2
+                },
+                {
+                  "InventoryId":3,
+                  "Title":"Lamp",
+                  "Description":"",
+                  "Price":99.00,
+                  "Discount":1.00,
+                  "Categoty":"Home",
+                  "Available":12,
+                  "Quantity":1
+                }
+              ]
+            }
+
++ Response 401
+  + body
+
+            {
+              "error":"Cannot verify identity"
+            }
+
+
+## Shopping card [/shoppingcart]
+### Update shopping cart [POST]
++ Request (application/json)
+  + body
+
+            {
+                "UserId":1,
+                "InventoryId":1,
+                "Quantity":3
+            }
+
++ Response 200
+  + body
+
+            {
+              "error":"nil"
+            }
+
++ Response 401
+  + body
+
+            {
+              "error":"Cannot verify identity"
+            }
+
+## Delete shopping cart [DELETE]
++ Request (application/json)
+  + body
+
+            {
+              "UserId":1,
+              "InventoryId":1
+            }
+
++ Response 200
+  + body
+
+            {
+              "error":"nil"
+            }
+
++ Response 401
+  + body
+
+            {
+              "error":"Cannot verify identity"
+            }
+
+## Order [/order{?UserId,CartOrderID}]
+### View detail [GET]
++ Parameters
+  + UserId (number)
+  + CartOrderID (number)
+
++ Response 200
+  + body
+
+            {
+              "error":"nil",
+              "Item":[
+                {
+                  "InventoryId":3,
+                  "Title":"Lamp",
+                  "Description":"",
+                  "Price":99.00,
+                  "Discount":1.00,
+                  "Categoty":"Home",
+                  "Available":12,
+                  "Quantity":1
+                }
+              ]
+            }
+
+## Order [/order]
+### Checkout [POST]
++ Request (application/json)
+  + body
+
+
+            {
+                "UserId":1
+            }
+
++ Response 200
+  will have the order id
+  + body
+
+            {
+                "error":"nil",
+                "CartOrderId":1
+            }
+
++ Response 401
+  + body
+
+            {
+                "error":"Cannot verify identity"
+            }
+
+## Category [/category{?category}]
+### Search by categoty[GET]
++ Parameters
+  + category (string)
+
++ Response 200
+  + body
+
+            {
+              "error":"nil",
+              "Inventory":[
+                {
+                  "InventoryId":2,
+                  "Title":"Mouse",
+                  "Description":"",
+                  "Price":68.00,
+                  "Discount":1.00,
+                  "Category":"Electronics",
+                  "Available":15
+                },
+                {
+                  "InventoryId":1,
+                  "Title":"Keyboard",
+                  "Description":"",
+                  "Price":100.00,
+                  "Discount":0.95,
+                  "Category":"Electronics",
+                  "Available":5
+                }
+              ]
+            }
