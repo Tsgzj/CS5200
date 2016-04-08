@@ -1,17 +1,18 @@
 <li ng-repeat="i in data.item">
     <ul>
         <li>
-            {{i.InventoryID}}
+            Title: {{i.Title}}
         </li>
         <li>
-            {{i.Title}}
+            Description: {{i.Description}}
         </li>
         <li>
-            {{i.Description}}
+            Price: {{i.Price * i.Discount}}
         </li>
         <li>
-            {{i.Price}}*{{i.Quantity}}*{{i.Discount}}
+            Quantity: {{i.Quantity}}
         </li>
-
+        <a class="btn btn-default" ui-sref="deleteCart({InventoryId: i.InventoryId})">Delete This Item</a>
     </ul>
 </li>
+Total Price: {{total}}
