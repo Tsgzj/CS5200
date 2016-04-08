@@ -3,7 +3,7 @@ from __future__ import print_function # In python 2.7
 from flask import Flask, jsonify
 from flask import request
 from flask import abort
-#from dbword import *
+from dbword import *
 import sys
 
 app = Flask(__name__)
