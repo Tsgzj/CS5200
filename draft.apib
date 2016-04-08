@@ -280,7 +280,7 @@ Allow user to view and edit his shopping cart
             }
 
 
-## Shopping card [/shoppingcart]
+## Shopping Cart [/shoppingcart]
 ### Update shopping cart [POST]
 + Request (application/json)
   + body
@@ -305,15 +305,8 @@ Allow user to view and edit his shopping cart
               "error":"Cannot verify identity"
             }
 
-## Delete shopping cart [DELETE]
-+ Request (application/json)
-  + body
-
-            {
-              "UserId":1,
-              "InventoryId":1
-            }
-
+## Shopping cart [/shoppingcart{?userid,inventoryid}]
+### Delete shopping cart [DELETE]
 + Response 200
   + body
 

@@ -202,11 +202,11 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
         var requestData = {};
         //console.log($scope.cardNumber);
         if($scope.preChk()) {
-            requestData["UserId"] = $cookies.get("uid"),
-            requestData["CardNumber"] = $scope.cardNumber,
-            requestData["Address"] = $scope.cardAddress,
-            requestData["ExpirationDate"] = $scope.expirationDate,
-            requestData["Type"] = $scope.cardType,
+            requestData["\"UserId\""] = $cookies.get("uid"),
+            requestData["\"CardNumber\""] = $scope.cardNumber,
+            requestData["\"Address\""] = $scope.cardAddress,
+            requestData["\"ExpirationDate\""] = $scope.expirationDate,
+            requestData["\"Type\""] = $scope.cardType,
             $http.post(server + "/user/payment/" + $scope.cardNumber, requestData).success(
                 $state.go('profile', {userid: $cookies.get("uid")})
             ).error(
@@ -292,15 +292,24 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
 myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
     $scope.addToCart = function () {
         var requestData = {};
-        if($scope.preChk()) {
-            $http.post(server + "shoppingcart", requestData).success(
-                $state.go('profile', {userid: $cookies.get("uid")})
+        if($scope.preChk($scope.item.Available, $scope.number)) {
+            requestData["\"Quantity\""] = $scope.number;
+            requestData["\"InventoryId\""] = $scope.item.InventoryId;
+            requestData["\"UserId\""] = $cookies.get("uid");
+            $http.post(server + "/shoppingcart", requestData).success(
+                $state.go('shoppingcart')
             ).error(
                 window.alert("Failed to update payment.")
             )
         }
+        else {
+            window.alert("Cannot fullfill your request now")
+        }
     }
-    $scope.precheck = function() {
-        
+    $scope.preChk = function(aval, num) {
+        if (isNaN(num)){
+            return false;
+        }
+        return num<=aval;
     }
 }])
