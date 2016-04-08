@@ -40,7 +40,7 @@
         Order History
         <li ng-repeat="i in profile.Order">
             <ul>
-                <a ui-sref="order">{{i.CartOrderId}}</a>
+                <a ui-sref="order({orderid: i.CartOrderId})">{{i.CartOrderId}}</a>
             </ul>
         </li>
     </ul>

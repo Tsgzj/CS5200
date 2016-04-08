@@ -1,1 +1,28 @@
-Order Info Here
+Order Info
+<ul ng-repeat="i in data.Item" ng-controller="ShoppingCartCtrl">
+    <li>
+        Title: {{i.Title}}
+    </li>
+    <li>
+        Discription: {{i.Discription}}
+    </li>
+    <li>
+        Quantity: {{i.Quantity}}
+    </li>
+    <li>
+        Price: {{i.Price * i.Discount}}
+    </li>
+</ul>
+Total Price : {{total}}
+<ul>
+    Status: {{data.Status}}
+</ul>
+<ul>
+    Dilivery:
+    <li>
+        Carrier: {{data.Delivery.Carrier}}
+    </li>
+    <li>
+        Estimated Arriving: {{data.Delivery.esttime}}
+    </li>
+</ul>

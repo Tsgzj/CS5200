@@ -5,141 +5,162 @@ server = "http://private-1db78-sunwenxiang.apiary-mock.com"
 // server = "http://127.0.0.1:5000"
 
 // Declare app level module which depends on views, and components
-var myApp = angular.module('myApp', [
-  'ui.router',
-  'ui.bootstrap',
-  'ngCookies'
-]).
-config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise("front")
-  $stateProvider
-      .state('front', {
-          url: "/front",
-          templateUrl: "static/frontPage.html"
-      })
-      .state('login', {
-        url: "/login",
-        templateUrl: "static/login.html"
-      })
-      .state('electronics', {
-        url: "/category",
-        templateUrl: "static/category.html",
-        controller: function($scope, $http) {
-            $http({
-                method: "GET",
-                url: server + "/category?category=electronics"
-            }).then(function (response) {
-                $scope.items = response.data;
-            }, function(response) {
-                window.alert("Something wrong happened, please try again.")
-            });
-        }
-      })
-      .state('fashion', {
-          url: "/category",
-          templateUrl: "static/category.html",
-          controller: function ($scope, $http) {
-              $http({
-                  method: "GET",
-                  url: server + "/category?category=fashion"
-              }).then(function (response) {
-                  $scope.items = response.data;
-              }, function(response) {
-                  window.alert("Something wrong happened, please try again.")
-              });
-          }
-      })
-      .state('home', {
-        url: "/category",
-        templateUrl: "static/category.html",
-        controller: function($scope, $http) {
-            $http({
-                method : "GET",
-                url : server + "/category?category=home"
-            }).then(function(response) {
-                $scope.items = response.data;
-            }, function(response) {
-                window.alert("Something wrong happened, please try again.")
-            });
-        }
-      })
-      .state('profile', {
-          url: "/profile",
-          params: {
-              userid: null
-          },
-          templateUrl: "static/profile.html",
-          controller: function($scope, $http, $stateParams) {
-              $http({
-                  method: "GET",
-                  url: server + "/user?userid=" + $stateParams.userid
-              }).then(function (response) {
-                  $scope.profile = response.data;
-              }, function(response) {
-                  window.alert("Please log in first.")
-              });
-          }
-      })
-      .state('inventory', {
-        url: "/inventory",
-        templateUrl: "static/inventory.html",
-        params: {
-            term: null
-        },
-        controller: function($scope, $http, $stateParams) {
-            $http({
-                method: "GET",
-                url: server + "/inventory?title=" + $stateParams.term
-            }).then(function (response) {
-                $scope.items = response.data;
-            }, function(response) {
-                window.alert("Something wrong happened, please try again.")
-            });
-        }
-      })
-      .state('detail', {
-          url: "/inventory/detail",
-          templateUrl: "static/inventoryDetail.html",
-          params: {
-              data: {}
-          },
-          controller: function($scope, $stateParams) {
-              //console.log($stateParams.data);
-              $scope.item = $stateParams.data;
-          }
-      })
-      .state('addpayment', {
-          url: "/addpayment",
-          templateUrl: "static/addPayment.html"
-      })
-      .state('detailpayment', {
-          url: "/payment",
-          templateUrl: "static/detailPayment.html",
-          controller: function($scope, $http, $cookies) {
-              $http({
-                  method: "GET",
-                  url: server + "/user/payment?UserId=" + $cookies.get("uid")
-              }).then(function (response) {
-                  $scope.data = response.data;
-              }, function(response) {
-                  window.alert("Please log in first.")
-              });
-          }
-      })
-      .state('editpayment', {
-          url: "/editpayment",
-          templateUrl: "static/editPayment.html",
-          params: {
-              cardNumber: null
-          },
-          controller: function($scope, $stateParams) {
-              $scope.cardNumber = $stateParams.cardNumber
-          }
-      })
-      .state('order', {
-          url: "/order",
-          templateUrl: "static/order.html"
-      })
+var myApp;
+myApp = angular.module('myApp', [
+    'ui.router',
+    'ui.bootstrap',
+    'ngCookies'
+]).config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise("front")
+    $stateProvider
+        .state('front', {
+            url: "/front",
+            templateUrl: "static/frontPage.html"
+        })
+        .state('login', {
+            url: "/login",
+            templateUrl: "static/login.html"
+        })
+        .state('electronics', {
+            url: "/category",
+            templateUrl: "static/category.html",
+            controller: function ($scope, $http) {
+                $http({
+                    method: "GET",
+                    url: server + "/category?category=electronics"
+                }).then(function (response) {
+                    $scope.items = response.data;
+                }, function (response) {
+                    window.alert("Something wrong happened, please try again.")
+                });
+            }
+        })
+        .state('fashion', {
+            url: "/category",
+            templateUrl: "static/category.html",
+            controller: function ($scope, $http) {
+                $http({
+                    method: "GET",
+                    url: server + "/category?category=fashion"
+                }).then(function (response) {
+                    $scope.items = response.data;
+                }, function (response) {
+                    window.alert("Something wrong happened, please try again.")
+                });
+            }
+        })
+        .state('home', {
+            url: "/category",
+            templateUrl: "static/category.html",
+            controller: function ($scope, $http) {
+                $http({
+                    method: "GET",
+                    url: server + "/category?category=home"
+                }).then(function (response) {
+                    $scope.items = response.data;
+                }, function (response) {
+                    window.alert("Something wrong happened, please try again.")
+                });
+            }
+        })
+        .state('profile', {
+            url: "/profile",
+            params: {
+                userid: null
+            },
+            templateUrl: "static/profile.html",
+            controller: function ($scope, $http, $stateParams) {
+                $http({
+                    method: "GET",
+                    url: server + "/user?userid=" + $stateParams.userid
+                }).then(function (response) {
+                    $scope.profile = response.data;
+                }, function (response) {
+                    window.alert("Please log in first.")
+                });
+            }
+        })
+        .state('inventory', {
+            url: "/inventory",
+            templateUrl: "static/inventory.html",
+            params: {
+                term: null
+            },
+            controller: function ($scope, $http, $stateParams) {
+                $http({
+                    method: "GET",
+                    url: server + "/inventory?title=" + $stateParams.term
+                }).then(function (response) {
+                    $scope.items = response.data;
+                }, function (response) {
+                    window.alert("Something wrong happened, please try again.")
+                });
+            }
+        })
+        .state('detail', {
+            url: "/inventory/detail",
+            templateUrl: "static/inventoryDetail.html",
+            params: {
+                data: {}
+            },
+            controller: function ($scope, $stateParams) {
+                //console.log($stateParams.data);
+                $scope.item = $stateParams.data;
+            }
+        })
+        .state('addpayment', {
+            url: "/addpayment",
+            templateUrl: "static/addPayment.html"
+        })
+        .state('detailpayment', {
+            url: "/payment",
+            templateUrl: "static/detailPayment.html",
+            controller: function ($scope, $http, $cookies) {
+                $http({
+                    method: "GET",
+                    url: server + "/user/payment?UserId=" + $cookies.get("uid")
+                }).then(function (response) {
+                    $scope.data = response.data;
+                }, function (response) {
+                    window.alert("Please log in first.")
+                });
+            }
+        })
+        .state('editpayment', {
+            url: "/editpayment",
+            templateUrl: "static/editPayment.html",
+            params: {
+                cardNumber: null
+            },
+            controller: function ($scope, $stateParams) {
+                $scope.cardNumber = $stateParams.cardNumber
+            }
+        })
+        .state('order', {
+            url: "/order",
+            templateUrl: "static/order.html",
+            params: {
+                orderid: null
+            },
+            controller: function ($scope, $http, $cookies, $stateParams) {
+                $http({
+                    method: "GET",
+                    url: server + "/order?UserId=" + $cookies.get("uid") + "&CartOrderId=" + $stateParams.orderid
+                }).then(function (response) {
+                    $scope.data = response.data;
+                    var sum = 0;
+                    for(var i=0; i<$scope.data.Item.length; i++) {
+                        if (i in $scope.data.Item) {
+                            var s = $scope.data.Item[i];
+                            sum += s.Price * s.Discount * s.Quantity;
+                        }
+                    }
+                    $scope.total = sum;
+                }, function (response) {
+                    window.alert("Please log in first.")
+                });
+            }
+        })
 });
 
 myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
@@ -202,7 +223,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
         var requestData = {};
         //console.log($scope.cardNumber);
         if($scope.preChk()) {
-            requestData["\"UserId\""] = $cookies.get("uid"),
+            requestData["\"UserId\""] = Number($cookies.get("uid")),
             requestData["\"CardNumber\""] = $scope.cardNumber,
             requestData["\"Address\""] = $scope.cardAddress,
             requestData["\"ExpirationDate\""] = $scope.expirationDate,
@@ -295,7 +316,7 @@ myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$
         if($scope.preChk($scope.item.Available, $scope.number)) {
             requestData["\"Quantity\""] = $scope.number;
             requestData["\"InventoryId\""] = $scope.item.InventoryId;
-            requestData["\"UserId\""] = $cookies.get("uid");
+            requestData["\"UserId\""] = Number($cookies.get("uid"));
             $http.post(server + "/shoppingcart", requestData).success(
                 $state.go('shoppingcart')
             ).error(
