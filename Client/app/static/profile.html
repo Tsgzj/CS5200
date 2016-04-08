@@ -15,7 +15,7 @@
         <li ng-repeat="i in profile.Payment">
             <ul>
                 {{i.CardNumber}}, {{i.ExpirationDate}}
-                <a ui-sref="editpayment">Edit</a>
+                <a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>
             </ul>
         </li>
     </ul>
@@ -39,7 +39,7 @@
         Order History
         <li ng-repeat="i in profile.Order">
             <ul>
-                {{i.CartOrderId}}
+                <a ui-sref="order">{{i.CartOrderId}}</a>
             </ul>
         </li>
     </ul>

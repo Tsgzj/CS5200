@@ -89,7 +89,21 @@ config(function($stateProvider, $urlRouterProvider) {
       })
       .state('addpayment', {
           url: "/addpayment",
-          templateUrl: "static/payment.html"
+          templateUrl: "static/addPayment.html"
+      })
+      .state('editpayment', {
+          url: "/editpayment",
+          templateUrl: "static/editPayment.html",
+          params: {
+              cardNumber: null
+          },
+          controller: function($scope, $stateParams) {
+              $scope.cardNumber = $stateParams.cardNumber
+          }
+      })
+      .state('order', {
+          url: "/order",
+          templateUrl: "static/order.html"
       })
 });
 
@@ -123,15 +137,31 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
         var requestData = {};
         if($scope.preChk()) {
             requestData["UserId"] = $cookies.get("uid"),
-                requestData["CardNumber"] = $scope.cardNumber,
-                requestData["Address"] = $scope.cardAddress,
-                requestData["ExpirationDate"] = $scope.expirationDate,
-                requestData["Type"] = $scope.cardType,
-                $http.post(server + "/user/payment", requestData).success(
-                    $state.go('profile')
-                ).error(
-                    window.alert("Failed to update payment.")
-                )
+            requestData["CardNumber"] = $scope.cardNumber,
+            requestData["Address"] = $scope.cardAddress,
+            requestData["ExpirationDate"] = $scope.expirationDate,
+            requestData["Type"] = $scope.cardType,
+            $http.post(server + "/user/payment", requestData).success(
+                $state.go('profile')
+            ).error(
+                window.alert("Failed to update payment.")
+            )
+        }
+    }
+    $scope.editPayment = function() {
+        var requestData = {};
+        console.log($scope.cardNumber);
+        if($scope.preChk()) {
+            requestData["UserId"] = $cookies.get("uid"),
+            requestData["CardNumber"] = $scope.cardNumber,
+            requestData["Address"] = $scope.cardAddress,
+            requestData["ExpirationDate"] = $scope.expirationDate,
+            requestData["Type"] = $scope.cardType,
+            $http.post(server + "/user/payment/" + $scope.cardNumber, requestData).success(
+                $state.go('profile')
+            ).error(
+                window.alert("Failed to update payment.")
+            )
         }
     }
     $scope.preChk = function() {

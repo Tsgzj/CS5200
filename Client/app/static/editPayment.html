@@ -1,0 +1,11 @@
+<div ng-controller="ProfileCtrl">
+    Edit Payment {{cardNumber}}
+    <form name="payment">
+        Address: <input type="text" ng-model="cardAddress" placeholder="Address" name="address">
+        ExpirationDate: <input type="text" ng-model="expirationDate" placeholder="mm/dd/yyyy" name="date">
+        Type:
+        <select name="Type" ng-model="cardType" ng-options="option for option in typeoptions">
+        </select>
+        <button class="btn btn-default" type="submit" ng-click="editPayment()"> update </button>
+    </form>
+</div>
