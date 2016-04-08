@@ -18,22 +18,43 @@ def login():
     username = request.args.get('username')
     password = request.args.get('password')
      
-    mydata = request.json
+    uid=loginuser(username,password)
 
-    #TODO: return user id
+    if (uid is None):
+        user_id = {
+            "error":"Can not verify username/password"
+        }
+        return jsonify(user_id),401
 
     user_id = {
     	"error":"nil",
-    	"UserId":123
+    	"UserId":uid
+    }
+
+    return jsonify(user_id),200
+
+@app.route("/session/add")
+def adduser():
+    
+    username = request.args.get('username')
+    password = request.args.get('password')
+     
+    #TODO: return user id
+    insertuser(username,password)
+
+    user_id = {
+        "error":"nil",
+        "UserId":123
     }
 
     if (user_id is None):
         user_id = {
-        	"error":"Can not verify username/password"
+            "error":"Can not verify username/password"
         }
         return jsonify(user_id),401
     
     return jsonify(user_id),200
+
 
 @app.route("/session", methods=['DELETE'])
 def logout():

@@ -1,29 +1,28 @@
 import MySQLdb
 
+dbhandle = MySQLdb.connect("localhost","root","headbang", "ecom") #Connection to DB established
+tray = dbhandle.cursor()
+
 #1 Add/create user info
 def insertuser(username, password):
-    try:
-        #userid = raw_input("enter user id")
-        #name = raw_input("enter user name")
-        #password = raw_input("enter user password")
-        #query= "Delete from user"
-        query = "INSERT INTO user (username, password) VALUES(%s,%s)"
-        args = name, password
-        tray.execute(query, args)
-    except:
-        print ("check for data type or foreign key error")
+    query = ("INSERT INTO User (username, password)"
+            " VALUES(%s,%s)")
+    args = (username, password)
+    tray.execute(query, args)
     dbhandle.commit()
     
 #1.1 login
 def loginuser(username, password):
-    try:
-        query = "Select id from user where username =%s and password = %s"
-        args = username, password
-        tray.execute(query, args)
-    except:
-        print ("cannot verify username/password")
-    dbhandle.commit()
-    
+    print "Uname: %s" %username
+    print "pwd: %s" %password
+    query = "Select id from User where username =%s and password = %s"
+    args = (username, password)
+    tray.execute(query, args)
+    #tray.execute("Select * from User")
+
+    result=tray.fetchone()
+    return result[0]
+
 #1.2 Logout
     
 #2 Get user/customer info
@@ -191,8 +190,7 @@ def search(category):
 
 
 
-dbhandle = MySQLdb.connect("localhost","root","headbang", "ecom") #Connection to DB established
-tray = dbhandle.cursor()
+
 """
 insertuser(username, password)
 loginuser(username, password)
