@@ -161,6 +161,21 @@ myApp = angular.module('myApp', [
                 });
             }
         })
+       .state('shoppingcart', {
+      		url:"/shoppingcart",
+      		templateUrl: "static/shoppingCart.html",
+      		controller : function($scope,$http,$cookies){
+      			$http({
+      				method : "GET",
+      				url: server + "/shoppingcart?UserID=" $cookies.get("uid")
+      			}).then(function(response){
+      				$scope.data=response.data;
+
+      			}, function(response){
+      				window.alert("Please Login first.")
+      			});
+      		}
+      })
 });
 
 myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
