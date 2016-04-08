@@ -2,7 +2,7 @@
 
 var server;
 server = "http://private-1db78-sunwenxiang.apiary-mock.com"
-// server = "http://127.0.0.1"
+// server = "http://127.0.0.1:5000"
 
 // Declare app level module which depends on views, and components
 var myApp = angular.module('myApp', [
@@ -13,13 +13,9 @@ var myApp = angular.module('myApp', [
 config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/")
   $stateProvider
-      .state('root', {
-          url: "/root",
-          templateUrl: "index.html"
-      })
       .state('login', {
         url: "/login",
-        templateUrl: "static/category.html"
+        templateUrl: "static/login.html"
       })
       .state('electronics', {
         url: "/category",
@@ -131,7 +127,7 @@ config(function($stateProvider, $urlRouterProvider) {
       })
 });
 
-myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', function($scope, $log, $state, $cookies) {
+myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
     $scope.search = function() {
         $state.go('inventory', {term: $scope.term});
     }
@@ -149,8 +145,19 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', function
     }
     $scope.bar = function() {
         $cookies.remove("uid");
-        $state.go('root');
+        //$state.go('root');
         console.log("Remove cookies");
+    }
+    $scope.login = function() {
+        $http({
+            method: "GET",
+            url: server + "/session?username=" + $scope.userName + "&password=" + $scope.passWord
+        }).then(function(response) {
+            $cookies.put("uid", response.data.UserId),
+            $state.go('profile', {userid: $cookies.get("uid")})
+        }, function(response) {
+            window.alert("Cannot verify the username/password pair")
+        })
     }
 }]);
 
@@ -166,7 +173,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
             requestData["ExpirationDate"] = $scope.expirationDate,
             requestData["Type"] = $scope.cardType,
             $http.post(server + "/user/payment", requestData).success(
-                $state.go('profile')
+                $state.go('profile', {userid: $cookies.get("uid")})
             ).error(
                 window.alert("Failed to update payment.")
             )
@@ -182,7 +189,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
             requestData["ExpirationDate"] = $scope.expirationDate,
             requestData["Type"] = $scope.cardType,
             $http.post(server + "/user/payment/" + $scope.cardNumber, requestData).success(
-                $state.go('profile')
+                $state.go('profile', {userid: $cookies.get("uid")})
             ).error(
                 window.alert("Failed to update payment.")
             )
