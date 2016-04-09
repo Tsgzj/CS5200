@@ -1,0 +1,13 @@
+<div ng-controller="CheckoutCtrl">
+    Order Info
+    <ul ng-repeat="i in items" ng-controller="ShoppingCartCtrl">
+        <li>
+            Title: {{i.Title}}
+        </li>
+    </ul>
+    Total Price : {{total}}
+
+    <select name="Type" ng-model="cards" ng-options="option for option in payment">
+    </select>
+    <button class="btn btn-primary" type="submit" ng-click="checkout()"> Checkout </button>
+</div>

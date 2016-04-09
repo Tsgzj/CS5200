@@ -15,6 +15,7 @@
         <a class="btn btn-default" ng-click="deleteCart(i.InventoryId)">Delete This Item</a>
     </ul>
 </li>
-Total Price: {{total}}
-
-<a ui-sref="checkout">Check Out</a>
+<li>
+    Total Price: {{total}}
+</li>
+<a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.item, total: total})">Check Out</a>
