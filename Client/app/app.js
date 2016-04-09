@@ -2,7 +2,7 @@
 
 var server;
 server = "http://private-1db78-sunwenxiang.apiary-mock.com"
-// server = "http://127.0.0.1:5000"
+//server = "http://127.0.0.1:5000"
 
 // Declare app level module which depends on views, and components
 var myApp;
@@ -222,7 +222,8 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http',
             window.alert("Something wrong happend")
         )
     }
-    $scope.login = function() {
+    $scope.logIn = function() {
+        console.log("Clicked");
         $http({
             method: "GET",
             url: server + "/session?username=" + $scope.userName + "&password=" + $scope.passWord
