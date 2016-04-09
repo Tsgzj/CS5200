@@ -1,13 +1,21 @@
 <div ng-controller="CheckoutCtrl">
     Order Info
-    <ul ng-repeat="i in items" ng-controller="ShoppingCartCtrl">
+    <ul ng-repeat="i in items">
         <li>
             Title: {{i.Title}}
         </li>
     </ul>
     Total Price : {{total}}
 
-    <select name="Type" ng-model="cards" ng-options="option for option in payment">
+    <select name="Type" ng-model="cards" ng-options="option as option.CardNumber for option in payment">
     </select>
+    <p> Shipping Address
+        <select name="ship" ng-model="shipping" ng-options="option as option.Street + ' ,' + option.City + ' ,' + option.State + ' ,' + option.ZipCode for option in shippingAddresses">
+        </select>
+    </p>
+    <p> Billing Address
+    <select name="bill" ng-model="billing" ng-options="option as option.Street + ' ,' + option.City + ' ,' + option.State + ' ,' + option.ZipCode for option in billingAddresses">
+    </select>
+    </p>
     <button class="btn btn-primary" type="submit" ng-click="checkout()"> Checkout </button>
 </div>

@@ -65,14 +65,11 @@ myApp = angular.module('myApp', [
         })
         .state('profile', {
             url: "/profile",
-            params: {
-                userid: null
-            },
             templateUrl: "static/profile.html",
-            controller: function ($scope, $http, $stateParams) {
+            controller: function ($scope, $http, $cookies) {
                 $http({
                     method: "GET",
-                    url: server + "/user?userid=" + $stateParams.userid
+                    url: server + "/user?userid=" + $cookies.get("uid")
                 }).then(function (response) {
                     $scope.profile = response.data;
                 }, function (response) {
@@ -161,6 +158,16 @@ myApp = angular.module('myApp', [
                 });
             }
         })
+        .state('orderconfirm', {
+            url: "/orderConfirm",
+            templateUrl: "static/orderConfirmation.html",
+            params: {
+                confirm: null
+            },
+            controller: function ($scope, $stateParams) {
+                $scope.confirm = $stateParams.confirm;
+            }
+        })
         .state('shoppingcart', {
       		url:"/shoppingcart",
       		templateUrl: "static/shoppingCart.html",
@@ -230,7 +237,7 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http',
         }).then(function(response) {
             console.log(response.data);
             $cookies.put("uid", response.data.UserId),
-            $state.go('profile', {userid: $cookies.get("uid")})
+            $state.go('profile')
         }, function(response) {
             window.alert("Cannot verify the username/password pair")
         })
@@ -249,7 +256,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
             requestData["ExpirationDate"] = $scope.expirationDate,
             requestData["Type"] = $scope.cardType,
             $http.post(server + "/user/payment", requestData).success(
-                $state.go('profile', {userid: $cookies.get("uid")})
+                $state.go('profile')
             ).error(
                 window.alert("Failed to update payment.")
             )
@@ -265,7 +272,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
             requestData["\"ExpirationDate\""] = $scope.expirationDate,
             requestData["\"Type\""] = $scope.cardType,
             $http.post(server + "/user/payment/" + $scope.cardNumber, requestData).success(
-                $state.go('profile', {userid: $cookies.get("uid")})
+                $state.go('profile')
             ).error(
                 window.alert("Failed to update payment.")
             )
@@ -383,32 +390,47 @@ myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$
 myApp.controller('CheckoutCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {
         $http({
             method: "GET",
-            url: server + "/user/payment?UserId=" + $cookies.get("uid")
+            url: server + "/user?UserId=" + $cookies.get("uid")
         }).then(function(response) {
-            var payment = [];
-            for(var i=0; i<response.data.Payment.length; i++) {
-                if (i in response.data.Payment) {
-                    var s = response.data.Payment[i];
-                    payment.push(s.CardNumber)
-                }
-            }
-            $scope.payment = payment;
+            $scope.payment = response.data.Payment;
             $scope.cards = $scope.payment[0];
         }, function() {
             window.alert("Failed to get payment info")
         })
+        $http({
+            method: "GET",
+            url: server + "/user?UserId=" + $cookies.get("uid")
+        }).then(function(response) {
+            $scope.shippingAddresses = response.data.ShippingAddress;
+            $scope.shipping = $scope.shippingAddresses[0];
+            console.log($scope.shipping);
+        }, function() {
+            window.alert("Failed to get payment info")
+        })
+        $http({
+            method: "GET",
+            url: server + "/user?UserId=" + $cookies.get("uid")
+        }).then(function(response) {
+            $scope.billingAddresses = response.data.BillingAddress;
+            $scope.billing = $scope.billingAddresses[0];
+        }, function() {
+            window.alert("Failed to get payment info")
+        })
         $scope.checkout = function() {
-            console.log("Check Out");
+            //console.log("Check Out");
             var requestData = {};
             requestData["\"UserId\""] = Number($cookies.get("uid"));
-            requestData["\"CardNumber\""] = $scope.cards;
+            requestData["\"CardId\""] = $scope.cards.CardId;
+            requestData["\"ShippingAddressId\""] = $scope.shipping.AddressId;
+            requestData["\"BillingAddressId\""] = $scope.billing.AddressId;
+            //console.log(requestData);
             $http({
                 method: "POST",
                 url: server + "/order",
                 data: requestData
             }).then(function(response) {
                 console.log(response.data.CartOrderId);
-                $state.go('order', {orderid: response.data.CartOrderId});
+                $state.go('orderconfirm', {confirm: response.data.CartOrderId});
             }, function() {
                 window.alert("Failed to update payment.")
             })
