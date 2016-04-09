@@ -228,6 +228,7 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http',
             method: "GET",
             url: server + "/session?username=" + $scope.userName + "&password=" + $scope.passWord
         }).then(function(response) {
+            console.log(response.data);
             $cookies.put("uid", response.data.UserId),
             $state.go('profile', {userid: $cookies.get("uid")})
         }, function(response) {

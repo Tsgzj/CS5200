@@ -54,6 +54,7 @@
                ],
                "Payment":[
                   {
+                     "CardId": 1
                      "CardNumber":"123456789012",
                      "Address":"360 Huntington Ave",
                      "ExpirationDate":"11 / 04 / 2016",
@@ -62,6 +63,7 @@
                ],
                "BillingAddress":[
                   {
+                     "AddressId": 1
                      "Street":"360 Huntington Ave",
                      "City":"BOSTON",
                      "State":"MA",
@@ -70,6 +72,7 @@
                ],
                "ShippingAddress":[
                   {
+                     "AddressId": 1
                      "Street":"360 Huntington Ave",
                      "City":"BOSTON",
                      "State":"MA",
@@ -113,7 +116,15 @@ Same as create user
             {
               "Payment":[
                 {
+                  "CardId": 1
                   "CardNumber":"123456789012",
+                  "Address":"360 Huntington Ave",
+                  "ExpirationDate":"11/04/2016",
+                  "Type":"Visa"
+                },
+                {
+                  "CardId": 2
+                  "CardNumber":"4111111111111111",
                   "Address":"360 Huntington Ave",
                   "ExpirationDate":"11/04/2016",
                   "Type":"Visa"
@@ -342,6 +353,16 @@ Allow user to view and edit his shopping cart
                   "Category":"Home",
                   "Available":12,
                   "Quantity":1
+                },
+                {
+                  "InventoryId": 1,
+                  "Title": "Keyboard",
+                  "Description": "",
+                  "Price": 100,
+                  "Discount": 0.95,
+                  "Category": "Electronics",
+                  "Available": 5,
+                  "Quantity":2
                 }
               ],
               "Status":"Confirmed",
@@ -359,7 +380,9 @@ Allow user to view and edit his shopping cart
 
             {
                 "UserId":1,
-                "CardNumber": "123456789876"
+                "CardId":1,
+                "ShippingAddressId":1,
+                "BillingAddressId":2
             }
 
 + Response 200
