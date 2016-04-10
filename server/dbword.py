@@ -257,8 +257,8 @@ def insertinventory (title, description, price, discount, category, available,us
 
 #8. View shopping cart
 def getshoppingcart(user_id):
-    query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
-    args = user_id
+    query = "SELECT * FROM Inventory inv, Item i WHERE exists( select *  from ShoppingCart s, Customer c, User u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s and not exists (select * from CartOrder ord where s.id=ord.id))"
+    args = [user_id]
     tray.execute(query, args)
     dbhandle.commit()
 
@@ -270,7 +270,7 @@ def getshoppingcart(user_id):
     shoppingcart["Item"] = []
     shoppingcart["ShoppingCartId"] = ''
     for item in tray.fetchall():
-        print item[0],item[2],item[3],item[4],item[5]
+        #print item[0],item[2],item[3],item[4],item[5]
         inven = {
             "InventoryId": item[0],
             "Discription":item[3],
