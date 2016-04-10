@@ -12,7 +12,7 @@ def insertuser(username, password):
     tray.execute(query, args)
     dbhandle.commit()
     return loginuser(username,password)
-    
+
 #1.1 login
 def loginuser(username, password):
     print "Uname: %s" %username
@@ -26,7 +26,7 @@ def loginuser(username, password):
     return result[0]
 
 #1.2 Logout
-    
+
 #2 Get user/customer info
 def getuserinfo(userid):
     try:
@@ -44,7 +44,7 @@ def getuserinfo(userid):
     userinfo ={}
 
     if uname is not None:
-        userinfo["username"]=uname
+        userinfo["Username"]=uname
 
     try:
         #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
@@ -54,7 +54,7 @@ def getuserinfo(userid):
     except:
         print ( "customer not found" )
 
-    userinfo["payment"] = []
+    userinfo["Payment"] = []
     #print userinfo["payment"][0]
 
     for item in tray.fetchall():
@@ -66,7 +66,7 @@ def getuserinfo(userid):
             "ExpirationDate":item[4],
             "Type":item[5]
         }
-        userinfo["payment"].append(card.copy())
+        userinfo["Payment"].append(card.copy())
 
 
     try:
@@ -128,10 +128,10 @@ def getuserinfo(userid):
         corder= {
             "CartOrderId": item[0]
         }
-        userinfo["Order"].append(addr.copy())        
+        userinfo["Order"].append(addr.copy())
 
     return userinfo
-        
+
 
 """
 
@@ -144,7 +144,7 @@ def insertpaymentinfo(cust_id, order_id, paidwith):
 """
 
 
-#3. View payment info 
+#3. View payment info
 def getpaymentnfo(custid):
     try:
         query = "Select * from Card where custid=%s"
@@ -155,7 +155,7 @@ def getpaymentnfo(custid):
         return None
 
     userinfo={}
-    userinfo["payment"] = []
+    userinfo["Payment"] = []
     #print userinfo["payment"][0]
 
     for item in tray.fetchall():
@@ -167,17 +167,17 @@ def getpaymentnfo(custid):
             "ExpirationDate":item[4],
             "Type":item[5]
         }
-        userinfo["payment"].append(card.copy())
+        userinfo["Payment"].append(card.copy())
 
     return userinfo
 """
 #4. Add cardpayment info
 def insertcardpaymentinfo( cust_id, payment):
-# 'cardnumber':  , 'address' : , 'expirationdate' : , 'ctype' : 
+# 'cardnumber':  , 'address' : , 'expirationdate' : , 'ctype' :
     try:
         query = "Insert into card ( custid, cardnumber, address, expirationdate, type)values (%s,%s,%s,%s,%s)"
         args = int(cust_id), payment['cardnumber'], payment['address'], payment['expirationdate'], int(payment['ctype'])
-        tray.execute (query, args) 
+        tray.execute (query, args)
     except:
         print ( "Cannot verify identity" )
     dbhandle.commit()
@@ -185,14 +185,14 @@ def insertcardpaymentinfo( cust_id, payment):
 """
 #4. Add cardpayment info
 def insertcardpaymentinfo(cust_id, cardnumber, address, expirationdate, ctype):
-    
+
     expd=expirationdate.split("/")
 
     #print expd
 
     exdate=datetime.date(int(expd[2]),int(expd[1]),int(expd[0]))
     #print exdate.strftime('%Y-%m-%d')
-    
+
     query = "Insert into Card (custid,cardnumber,address,expirationdate,type) values (%s,%s,%s,%s,%s)"
     args = (cust_id,cardnumber,address,exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype)
     tray.execute (query,args)
@@ -206,18 +206,18 @@ def updatecardpaymentinfo(cust_id, card_id,cardnumber, address, expirationdate, 
     query = "Update Card set cardnumber = %s and address = %s and expirationdate= %s and type = %s where exists (select * from Card c where c.custid = %s and c.id = %s)"
     args = (cardnumber, address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
     tray.execute (query, args)
-    
+
     dbhandle.commit()
 
     #not working
 
 
-        
-#6 view inventory info 
+
+#6 view inventory info
 def getinventoryinfo( title ):
     try:
         query = " Select * from inventory where title = %s"
-        args = title 
+        args = title
         tray.execute (query, args)
     except:
         print ("error: Cannot find inventory")
@@ -234,7 +234,7 @@ def insertinventory (title, description, price, discount, category, available,us
         tray.execute (query, args)
     except:
         print ( " do not have permission to add" )
-    dbhandle.commit()   
+    dbhandle.commit()
 
 
 #8. View shopping cart
@@ -245,10 +245,10 @@ def getshoppingcart(user_id):
         tray.execute (query, args)
     except:
         print ( " cannot verify identity" )
-    dbhandle.commit() 
+    dbhandle.commit()
 
 
-                       
+
 #9. Update shopping cart
 def updateshoppingcart(quantity, inventory_id, user_id):
     try:
@@ -257,8 +257,8 @@ def updateshoppingcart(quantity, inventory_id, user_id):
         tray.execute (query, args)
     except:
         print ( " cannot verify identity" )
-    dbhandle.commit() 
-    
+    dbhandle.commit()
+
 
 #10. Delete shopping cart
 def deleteshoppingcart(inventory_id, user_id):
@@ -269,7 +269,7 @@ def deleteshoppingcart(inventory_id, user_id):
     except:
         print ( "cannot verify identity" )
     dbhandle.commit()
-    
+
 #11. view order detail
 def getorderdetail( cartorder_id, user_id ):
     try:
@@ -279,7 +279,7 @@ def getorderdetail( cartorder_id, user_id ):
     except:
         print ( "cannot verify identity" )
     dbhandle.commit()
-    
+
 #12. Checkout
 def checkout(userid, cardid, shippingaddressid, billingaddresid):
     try:
@@ -291,14 +291,14 @@ def checkout(userid, cardid, shippingaddressid, billingaddresid):
         tray.execute (query1, args1)
     except:
         print ( "cannot verify identity" )
-    dbhandle.commit()  
+    dbhandle.commit()
 
 
 #13. Search in inventory
 def search(category):
     try:
         query = " Select * from inventory where category = %s"
-        args = int(category) 
+        args = int(category)
         tray.execute (query, args)
     except:
         print ("error: Cannot find the category")
@@ -369,6 +369,3 @@ for item in tray.fetchall():
 
 
 """
-
-
-

@@ -15,10 +15,10 @@ def index():
 
 @app.route("/session")
 def login():
-    
+
     username = request.args.get('username')
     password = request.args.get('password')
-     
+
     uid=loginuser(username,password)
 
     if (uid is None):
@@ -36,10 +36,10 @@ def login():
 
 @app.route("/session/add")
 def adduser():
-    
+
     username = request.args.get('username')
     password = request.args.get('password')
-     
+
     #TODO: return user id
     uid=insertuser(username,password)
 
@@ -59,13 +59,13 @@ def adduser():
 
 @app.route("/session", methods=['DELETE'])
 def logout():
-    
+
     app.logger.debug("JSON received...")
     app.logger.debug(request.json)
 
     if not request.json:
         abort(400)
-    
+
     if request.json:
         mydata = request.json
 
@@ -74,9 +74,9 @@ def logout():
 
 @app.route("/user", methods=['GET'])
 def retrieveuserinfo():
-    
+
     uid = request.args.get('UserId')
-    
+
     #TODO : Get details from uid
     resp = getuserinfo(uid)
 
@@ -90,7 +90,7 @@ def retrieveuserinfo():
 
 @app.route("/user/payment", methods=['GET'])
 def getcards():
-    
+
     uid = request.args.get('UserId')
 
     #TODO : Get details from uid to return list of cards
@@ -103,28 +103,6 @@ def getcards():
         return jsonify(resp),401
 
     return jsonify(resp),200
-
-@app.route("/user/payment",methods=['POST'])
-def addcard():
-
-    if not request.json:
-        abort(400)
-
-    if request.json:
-
-        req=request.json
-
-        uid=req.get("UserId")
-        cardnum=req.get("CardNumber")
-        address=req.get("Address")
-        expdate=req.get("ExpirationDate")
-        ctype=req.get("Type")
-
-        insertcardpaymentinfo(uid,cardnum,address,expdate,ctype)
-
-        resp = {"error":"nil"}
-
-        return jsonify(resp),200
 
 @app.route("/user/payment/update",methods=['POST'])
 def updatecard():
@@ -148,6 +126,29 @@ def updatecard():
         resp = {"error":"nil"}
 
         return jsonify(resp),200
+
+@app.route("/user/payment",methods=['POST'])
+def addcard():
+
+    if not request.json:
+        abort(400)
+
+    if request.json:
+
+        req=request.json
+
+        uid=req.get("UserId")
+        cardnum=req.get("CardNumber")
+        address=req.get("Address")
+        expdate=req.get("ExpirationDate")
+        ctype=req.get("Type")
+
+        insertcardpaymentinfo(uid,cardnum,address,expdate,ctype)
+
+        resp = {"error":"nil"}
+
+        return jsonify(resp),200
+
 
 
 @app.route("/inventory",methods=['GET'])

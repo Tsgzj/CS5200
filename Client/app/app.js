@@ -1,8 +1,8 @@
 'use strict';
 
 var server;
-server = "http://private-1db78-sunwenxiang.apiary-mock.com"
-//server = "http://127.0.0.1:5000"
+//server = "http://private-1db78-sunwenxiang.apiary-mock.com"
+server = "http://127.0.0.1:5000"
 
 // Declare app level module which depends on views, and components
 var myApp;
@@ -69,7 +69,7 @@ myApp = angular.module('myApp', [
             controller: function ($scope, $http, $cookies) {
                 $http({
                     method: "GET",
-                    url: server + "/user?userid=" + $cookies.get("uid")
+                    url: server + "/user?UserId=" + $cookies.get("uid")
                 }).then(function (response) {
                     $scope.profile = response.data;
                 }, function (response) {
@@ -271,7 +271,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
             requestData["\"Address\""] = $scope.cardAddress,
             requestData["\"ExpirationDate\""] = $scope.expirationDate,
             requestData["\"Type\""] = $scope.cardType,
-            $http.post(server + "/user/payment/" + $scope.cardNumber, requestData).success(
+            $http.post(server + "/user/payment/update?cardId=" + $scope.cardNumber, requestData).success(
                 $state.go('profile')
             ).error(
                 window.alert("Failed to update payment.")
