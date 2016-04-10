@@ -10,7 +10,7 @@
             Description: {{i.Description}}
         </li>
         <li>
-            Price: {{i.Price * i.Discount}}
+            Price: {{(i.Price * i.Discount).toFiexed(2)}}
         </li>
         <li>
             Quantity: {{i.Quantity}}
@@ -18,5 +18,4 @@
         <a class="btn btn-default" ng-click="deleteCart(i.InventoryId)">Delete This Item</a>
     </ul>
 </li>
-
-<a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.item, total: total})" ng-hide="!cancheckout">Check Out</a>
+<a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.Item, total: total, shopcartid: data.ShoppingCartId})" ng-hide="!cancheckout">Check Out</a>

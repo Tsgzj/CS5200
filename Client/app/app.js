@@ -177,6 +177,7 @@ myApp = angular.module('myApp', [
       				url: server + "/shoppingcart?UserId=" + $cookies.get("uid")
       			}).then(function(response){
       				$scope.data=response.data;
+                    console.log($scope.data.ShoppingCartId);
                     var sum = 0;
                     if($scope.data.Item) {
                         for (var i = 0; i < $scope.data.Item.length; i++) {
@@ -202,11 +203,14 @@ myApp = angular.module('myApp', [
             templateUrl: "static/checkout.html",
             params: {
                 item: {},
-                total: null
+                total: null,
+                shopcartid: null,
             },
             controller: function($scope, $stateParams) {
                 $scope.items = $stateParams.item;
                 $scope.total = $stateParams.total;
+                $scope.shopcartid = $stateParams.shopcartid;
+                console.log($stateParams.shopcartid)
             }
         })
 });
@@ -428,6 +432,7 @@ myApp.controller('CheckoutCtrl', ['$scope', '$log', '$state', '$cookies', '$http
             var requestData = {};
             requestData["UserId"] = Number($cookies.get("uid"));
             requestData["CardId"] = $scope.cards.CardId;
+            requestData["CartId"] = $scope.shopcartid;
             requestData["ShippingAddressId"] = $scope.shipping.AddressId;
             requestData["BillingAddressId"] = $scope.billing.AddressId;
             //console.log(requestData);

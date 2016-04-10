@@ -268,9 +268,10 @@ def getshoppingcart(user_id):
 
     shoppingcart = {"error":"nil"}
     shoppingcart["Item"] = []
+    shoppingcart["ShoppingCartId"] = ''
     for item in tray.fetchall():
         print item[0],item[2],item[3],item[4],item[5]
-        item = {
+        inven = {
             "InventoryId": item[0],
             "Discription":item[3],
             "Title":item[2],
@@ -280,7 +281,8 @@ def getshoppingcart(user_id):
             "Available":item[7],
             "Quantity":item[8],
         }
-        shoppingcart["Item"].append(item.copy())
+        shoppingcart["Item"].append(inven.copy())
+        shoppingcart["ShoppingCartId"] = item[10]
 
     return shoppingcart
 
