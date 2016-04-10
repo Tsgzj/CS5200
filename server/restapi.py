@@ -251,7 +251,9 @@ def getcategory():
 
     #list all items from a category
 
-    resp = {"error":"nil"}
+    resp=search(cate)
+
+    resp ["error"]="nil"
 
     return jsonify(resp),200
 
