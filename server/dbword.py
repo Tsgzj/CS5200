@@ -1,4 +1,5 @@
 import MySQLdb
+import datetime
 
 dbhandle = MySQLdb.connect("localhost","root","headbang", "ecom") #Connection to DB established
 tray = dbhandle.cursor()
@@ -145,13 +146,30 @@ def insertpaymentinfo(cust_id, order_id, paidwith):
 
 #3. View payment info 
 def getpaymentnfo(custid):
-    query = " Select * from card ca where ca.custid = %s"  
-    args = int(custid)
-    tray.execute ( query, args)
-    dbhandle.commit()
-    return tray.fetchall()
-    #for item in tray.fetchall():
-    #print item
+    try:
+        query = "Select * from Card where custid=%s"
+        args = (custid)
+        tray.execute(query, args)
+    except:
+        print ( "customer not found" )
+        return None
+
+    userinfo={}
+    userinfo["payment"] = []
+    #print userinfo["payment"][0]
+
+    for item in tray.fetchall():
+        print item[0],item[2],item[3],item[4],item[5]
+        card= {
+            "CardId": item[0],
+            "CardNumber":item[2],
+            "Address":item[3],
+            "ExpirationDate":item[4],
+            "Type":item[5]
+        }
+        userinfo["payment"].append(card.copy())
+
+    return userinfo
 """
 #4. Add cardpayment info
 def insertcardpaymentinfo( cust_id, payment):
@@ -167,25 +185,31 @@ def insertcardpaymentinfo( cust_id, payment):
 """
 #4. Add cardpayment info
 def insertcardpaymentinfo(cust_id, cardnumber, address, expirationdate, ctype):
-    try:
-        query = "Insert into card ( custid, cardnumber, address, expirationdate, type)values (%s,%s,%s,%s,%s)"
-        args = int(cust_id), cardnumber, address, expirationdate, int(ctype)
-        tray.execute (query, args) 
-    except:
-        print ( "Cannot verify identity" )
+    
+    expd=expirationdate.split("/")
+
+    #print expd
+
+    exdate=datetime.date(int(expd[2]),int(expd[1]),int(expd[0]))
+    #print exdate.strftime('%Y-%m-%d')
+    
+    query = "Insert into Card (custid,cardnumber,address,expirationdate,type) values (%s,%s,%s,%s,%s)"
+    args = (cust_id,cardnumber,address,exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype)
+    tray.execute (query,args)
     dbhandle.commit()
-
-
 
 #5. Update Payment
-def updatecardpaymentinfo(cardnumber, address, expirationdate, ctype, cust_id, card_id ):
-    try:
-        query = "Update card set cardnumber = %s and address = %s and expirationdate= %s and type = %s where exists ( select * from card where card.custid = %s and card.id = %s)"
-        args = cardnumber, address, expirationdate ,int(ctype), int(cust_id), int(card_id)
-        tray.execute (query, args)
-    except:
-        print ( "Cannot verify identity" )
+def updatecardpaymentinfo(cust_id, card_id,cardnumber, address, expirationdate, ctype):
+    expd=expirationdate.split("/")
+    exdate=datetime.date(int(expd[2]),int(expd[1]),int(expd[0]))
+
+    query = "Update Card set cardnumber = %s and address = %s and expirationdate= %s and type = %s where exists (select * from Card c where c.custid = %s and c.id = %s)"
+    args = (cardnumber, address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
+    tray.execute (query, args)
+    
     dbhandle.commit()
+
+    #not working
 
 
         

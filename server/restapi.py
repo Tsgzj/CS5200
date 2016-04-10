@@ -4,6 +4,7 @@ from flask import Flask, jsonify
 from flask import request
 from flask import abort
 from dbword import *
+import time
 import sys
 
 app = Flask(__name__)
@@ -93,7 +94,7 @@ def getcards():
     uid = request.args.get('UserId')
 
     #TODO : Get details from uid to return list of cards
-    resp = {"stub":"get uid details"}
+    resp = getpaymentnfo(uid)
 
     if (resp is None):
         resp = {
@@ -119,13 +120,13 @@ def addcard():
         expdate=req.get("ExpirationDate")
         ctype=req.get("Type")
 
-        #insertcardpaymentinfo(uid, cardnum, address, expdate, ctype)
+        insertcardpaymentinfo(uid,cardnum,address,expdate,ctype)
 
         resp = {"error":"nil"}
 
         return jsonify(resp),200
 
-@app.route("/user/payment",methods=['POST'])
+@app.route("/user/payment/update",methods=['POST'])
 def updatecard():
 
     cardid = request.args.get('cardId')
@@ -142,7 +143,7 @@ def updatecard():
         expdate=req.get("ExpirationDate")
         ctype=req.get("Type")
 
-        #updatecardpaymentinfo(uid, cardnum, address, expdate, ctype)
+        updatecardpaymentinfo(uid,cardid,cardnum, address, expdate, ctype)
 
         resp = {"error":"nil"}
 
