@@ -203,10 +203,9 @@ def updatecardpaymentinfo(cust_id, card_id,cardnumber, address, expirationdate, 
     expd=expirationdate.split("/")
     exdate=datetime.date(int(expd[2]),int(expd[1]),int(expd[0]))
 
-    query = "Update Card set cardnumber = %s and address = %s and expirationdate= %s and type = %s where exists (select * from Card c where c.custid = %s and c.id = %s)"
+    query = "Update Card set cardnumber = %s, address = %s, expirationdate= %s, type = %s where custid = %s and id = %s"
     args = (cardnumber, address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
     tray.execute (query, args)
-
     dbhandle.commit()
 
     #not working
