@@ -40,19 +40,19 @@ def adduser():
     password = request.args.get('password')
      
     #TODO: return user id
-    insertuser(username,password)
+    uid=insertuser(username,password)
+
+    if (uid is None):
+        user_id = {
+            "error":"Can not add new username/password"
+        }
+        return jsonify(user_id),401
 
     user_id = {
         "error":"nil",
-        "UserId":123
+        "UserId":uid
     }
 
-    if (user_id is None):
-        user_id = {
-            "error":"Can not verify username/password"
-        }
-        return jsonify(user_id),401
-    
     return jsonify(user_id),200
 
 
@@ -68,24 +68,22 @@ def logout():
     if request.json:
         mydata = request.json
 
-        #TODO: return user id
-
         resp = {"error":"nil"}
         return jsonify(resp),200
 
 @app.route("/user", methods=['GET'])
-def getuserinfo():
+def retrieveuserinfo():
     
     uid = request.args.get('UserId')
     
     #TODO : Get details from uid
-    resp = {"stub":"get uid details"}
+    resp = getuserinfo(uid)
 
     if (resp is None):
         resp = {"error":"Cannot find user info"}
         return jsonify(resp),401
 
-    resp['error'] = 'nil'
+    #resp['error'] = 'nil'
 
     return jsonify(resp),200
 
@@ -233,7 +231,11 @@ def getorder():
 @app.route("/order",methods=['POST'])
 def createorder():
 
-    uid = request.args.get('UserId')
+    if not request.json:
+        abort(400)
+
+    if request.json:
+        req=request.json
 
     #create new order/ we may need shoppiong cart id
 

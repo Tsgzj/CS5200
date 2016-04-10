@@ -10,6 +10,7 @@ def insertuser(username, password):
     args = (username, password)
     tray.execute(query, args)
     dbhandle.commit()
+    return loginuser(username,password)
     
 #1.1 login
 def loginuser(username, password):
@@ -28,15 +29,107 @@ def loginuser(username, password):
 #2 Get user/customer info
 def getuserinfo(userid):
     try:
-        query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where  %s=c.id and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
-        args = userid
+        #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
+        query = "Select u.username from User u where u.id=%s"
+        args = (userid)
         tray.execute(query, args)
     except:
         print ( "customer not found" )
-    dbhandle.commit()
-    return tray.fetchall()
-    #for item in tray.fetchall():
-    #print item
+    #dbhandle.commit()
+
+    #for item in tray.fetchone():
+    uname=tray.fetchone()[0]
+
+    userinfo ={}
+
+    if uname is not None:
+        userinfo["username"]=uname
+
+    try:
+        #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
+        query = "Select * from Card where custid=%s"
+        args = (userid)
+        tray.execute(query, args)
+    except:
+        print ( "customer not found" )
+
+    userinfo["payment"] = []
+    #print userinfo["payment"][0]
+
+    for item in tray.fetchall():
+        print item[0],item[2],item[3],item[4],item[5]
+        card= {
+            "CardId": item[0],
+            "CardNumber":item[2],
+            "Address":item[3],
+            "ExpirationDate":item[4],
+            "Type":item[5]
+        }
+        userinfo["payment"].append(card.copy())
+
+
+    try:
+        #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
+        query = "Select * from Address where cust_id=%s and type='billing'"
+        args = (userid)
+        tray.execute(query, args)
+    except:
+        print ( "customer not found" )
+
+    userinfo["BillingAddress"] = []
+    #print userinfo["payment"][0]
+
+    for item in tray.fetchall():
+        print item[0],item[2],item[3],item[4],item[5]
+        addr= {
+            "AddressId": item[0],
+            "Street":item[2],
+            "City":item[3],
+            "State":item[4],
+            "ZipCode":item[5]
+        }
+        userinfo["BillingAddress"].append(addr.copy())
+
+    try:
+        #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
+        query = "Select * from Address where cust_id=%s and type='shipping'"
+        args = (userid)
+        tray.execute(query, args)
+    except:
+        print ( "customer not found" )
+
+    userinfo["ShippingAddress"] = []
+    #print userinfo["payment"][0]
+
+    for item in tray.fetchall():
+        print item[0],item[2],item[3],item[4],item[5]
+        addr= {
+            "AddressId": item[0],
+            "Street":item[2],
+            "City":item[3],
+            "State":item[4],
+            "ZipCode":item[5]
+        }
+        userinfo["ShippingAddress"].append(addr.copy())
+
+    try:
+        query = "select ct.id from CartOrder ct, ShoppingCart sc where sc.addedby=%s and ct.id=sc.id"
+        args = (userid)
+        tray.execute(query, args)
+    except:
+        print ( "customer not found" )
+
+    userinfo["Order"] = []
+    #print userinfo["payment"][0]
+
+    for item in tray.fetchall():
+        print item[0]
+        corder= {
+            "CartOrderId": item[0]
+        }
+        userinfo["Order"].append(addr.copy())        
+
+    return userinfo
         
 
 """
@@ -164,11 +257,18 @@ def getorderdetail( cartorder_id, user_id ):
     dbhandle.commit()
     
 #12. Checkout
-"""
-def checkout(userid):
+def checkout(userid, cardid, shippingaddressid, billingaddresid):
     try:
-        query: "
-"""
+        query = " Insert into CartOrder (id) values (%s) where exists( Select * from shoppingcart s, customer c, user u, card ca where s.addedby= c.id and CartOrder.id = s.id and c.id = %s and ca.id = %s and where exist( Select * from address a where a.id= %s and a.type = 1) and where exists ( Select * from address aa where aa.id= %s and aa.type = 2 ) )"
+        args = int(userid), int(userid) , int (cardid) , int (shippingaddressid), int (billingaddresid)
+        tray.execute (query, args)
+        query1 = " Delete from shoppingcart s where s.id = %s"
+        args1 =  int( userid)
+        tray.execute (query1, args1)
+    except:
+        print ( "cannot verify identity" )
+    dbhandle.commit()  
+
 
 #13. Search in inventory
 def search(category):
