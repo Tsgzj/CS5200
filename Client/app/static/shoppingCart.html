@@ -1,3 +1,6 @@
+<li>
+    {{message}}
+</li>
 <li ng-repeat="i in data.item" ng-controller="ShoppingCartCtrl">
     <ul>
         <li>
@@ -15,7 +18,5 @@
         <a class="btn btn-default" ng-click="deleteCart(i.InventoryId)">Delete This Item</a>
     </ul>
 </li>
-<li>
-    Total Price: {{total}}
-</li>
-<a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.item, total: total})">Check Out</a>
+
+<a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.item, total: total})" ng-hide="!cancheckout">Check Out</a>

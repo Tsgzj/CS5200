@@ -221,10 +221,10 @@ def getinventoryinfo(title):
         tray.execute (query, args)
     except:
         print ("error: Cannot find inventory")
-        return None
     dbhandle.commit()
 
     inveninfo = {}
+    inveninfo["error"] = "nil"
     inveninfo["Inventory"] = []
     for item in tray.fetchall():
         print item[0],item[2],item[3],item[4],item[5]
@@ -258,13 +258,50 @@ def insertinventory (title, description, price, discount, category, available,us
 #8. View shopping cart
 def getshoppingcart(user_id):
     try:
-        query = " Select * from inventory in where exists ( select * item i, shoppincart s , customer c, user u where i.inv_id = in.id and i.shoppingcart_id = s.id  and s.addedby = c.id  and c.id = u.id and u.id = %s"
-        args = int (user_id)
+        query = " Select * from inventory where title LIKE %s"
+        args = "key"
         tray.execute (query, args)
     except:
-        print ( " cannot verify identity" )
+        print ("error: Cannot find inventory")
     dbhandle.commit()
 
+    inveninfo = {}
+    inveninfo["error"] = "nil"
+    inveninfo["Inventory"] = []
+    for item in tray.fetchall():
+        print item[0],item[2],item[3],item[4],item[5]
+        inven = {
+            "InventoryId": item[0],
+            "Discription":item[3],
+            "Title":item[2],
+            "Price":item[4],
+            "Discount":item[5],
+            "Category":item[6],
+            "Available":item[7]
+        }
+        inveninfo["Inventory"].append(inven.copy())
+
+        #query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
+        #inv.id, inv.title, inv.description, inv.price, inv.discount, inv.cateogry, inv.available, i.quantity
+
+
+    #shoppingcart = {"error":"nil"}
+    #shoppingcart["Item"] = []
+    #for item in tray.fetchall():
+    #    print item[0],item[2],item[3],item[4],item[5]
+    #    item = {
+    #        "InventoryId": item[0],
+    #        "Discription":item[2],
+    #        "Title":item[1],
+    #        "Price":item[3],
+    #        "Discount":item[4],
+    #        "Category":item[5],
+    #        "Available":item[6],
+    #        "Quantity":item[7],
+    #    }
+    #    shoppingcart["Item"].append(item.copy())
+
+    return shoppingcart
 
 
 #9. Update shopping cart

@@ -182,8 +182,11 @@ def getcart():
     uid = request.args.get('UserId')
 
     #getshoppingcartdetails
+    resp = getshoppingcart(uid)
 
-    resp = {"error":"nil"}
+    if(resp is None):
+        resp = {"error":"Cannot verify identity"}
+        return jsonify(resp),401
 
     return jsonify(resp),200
 

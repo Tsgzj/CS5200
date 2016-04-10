@@ -174,17 +174,24 @@ myApp = angular.module('myApp', [
       		controller : function($scope,$http,$cookies){
       			$http({
       				method : "GET",
-      				url: server + "/shoppingcart?UserID=" + $cookies.get("uid")
+      				url: server + "/shoppingcart?UserId=" + $cookies.get("uid")
       			}).then(function(response){
       				$scope.data=response.data;
                     var sum = 0;
-                    for(var i=0; i<$scope.data.item.length; i++) {
-                        if (i in $scope.data.item) {
-                            var s = $scope.data.item[i];
-                            sum += s.Price * s.Discount * s.Quantity;
+                    if($scope.data.item) {
+                        for (var i = 0; i < $scope.data.item.length; i++) {
+                            if (i in $scope.data.item) {
+                                var s = $scope.data.item[i];
+                                sum += s.Price * s.Discount * s.Quantity;
+                            }
                         }
+                        $scope.total = parseFloat(sum).toFixed(2);
+                        $scope.cancheckout = true
                     }
-                    $scope.total = parseFloat(sum).toFixed(2);
+                    else {
+                        $scope.message = "You have nothing in your cart";
+                        $scope.cancheckout = false
+                    }
       			}, function(response){
       				window.alert("Please Login first.")
       			});
