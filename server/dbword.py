@@ -258,9 +258,9 @@ def insertinventory (title, description, price, discount, category, available,us
 #8. View shopping cart
 def getshoppingcart(user_id):
     try:
-        query = " Select * from inventory where title LIKE %s"
-        args = "key"
-        tray.execute (query, args)
+        query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
+        args = user_id
+        tray.execute(query, args)
     except:
         print ("error: Cannot find inventory")
     dbhandle.commit()
@@ -281,6 +281,7 @@ def getshoppingcart(user_id):
         }
         inveninfo["Inventory"].append(inven.copy())
 
+    return inveninfo
         #query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
         #inv.id, inv.title, inv.description, inv.price, inv.discount, inv.cateogry, inv.available, i.quantity
 
@@ -358,15 +359,15 @@ def search(category):
 
     tray.execute (query,args)
     dbhandle.commit()
-    
+
     invinfo={}
     invinfo["Inventory"] = []
     #print userinfo["payment"][0]
-    
+
     for item in tray.fetchall():
         print item
         #print item[0],item[2],item[3],item[4],item[5]
-    
+
         invitem= {
             "InventoryId":item[0],
             "Title":item[2],
@@ -377,7 +378,7 @@ def search(category):
             "Available":item[7]
         }
         invinfo["Inventory"].append(invitem.copy())
-    
+
 
     return invinfo
 

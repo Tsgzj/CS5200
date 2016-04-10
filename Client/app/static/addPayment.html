@@ -1,12 +1,14 @@
 <div ng-controller="ProfileCtrl">
-    Payment
-    <form name="payment">
-        Number: <input type="text" ng-model="cardNumber" placeholder="Number" name="number">
-        Address: <input type="text" ng-model="cardAddress" placeholder="Address" name="address">
-        ExpirationDate: <input type="text" ng-model="expirationDate" placeholder="mm/dd/yyyy" name="date">
-        Type:
-        <select name="Type" ng-model="cardType" ng-options="option for option in typeoptions">
-        </select>
-        <button class="btn btn-default" type="submit" ng-click="addNewPayment()"> Add </button>
+    <div class="page-header"><h3><b>Payment</b></h3></div>
+    <form name="payment" class="form-inline">
+        <div class="form-group"><label>Number: </label><input type="text" class="from-control" ng-model="cardNumber" placeholder="Number" name="number"></div>&nbsp;&nbsp;&nbsp;
+        <div class="form-group"><label>Address: </label><input type="text" class="from-control"  ng-model="cardAddress" placeholder="Address" name="address"></div>&nbsp;&nbsp;&nbsp;
+        <div class="form-group"><label>ExpirationDate: </label><input type="text" class="from-control" ng-model="expirationDate" placeholder="mm/dd/yyyy" name="date"></div>&nbsp;&nbsp;&nbsp;
+        <div class="form-group"><label>Type:</label>
+            <select name="Type" ng-model="cardType" ng-options="option for option in typeoptions">
+            </select></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-warning" type="submit" ng-click="addNewPayment()"> Add </button>
     </form>
 </div>
+
+

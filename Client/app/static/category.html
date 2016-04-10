@@ -1,18 +1,55 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CS5200</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+
+
+
 <div ui-view></div>
-<h3>List of Items in Category</h3>
-<ul>
-    <li ng-repeat="i in items.Inventory">
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header"><h3>List of Items in Category</h3></div>
         <ul>
-            <li>
+            <li ng-repeat="i in items.Inventory">
+                <ul>
+                    <li><span class="glyphicon glyphicon-hand-right">
                 Title: {{i.Title}}
-            </li>
-            <li>
+                    </li></span>
+                    <li><span class="glyphicon glyphicon-hand-right">
                 Price: {{i.Price}}
-            </li>
-            <li>
-                Price After: {{(i.Price * i.Discount).toFixed(2)}}
+                    </li></span>
+                    <li><span class="glyphicon glyphicon-hand-right">
+                Price After: {{(i.Discount * i.Price).toFixed(2)}}
+                    </li></span>
+
+                </ul>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ui-sref="detail({data: i})">Detail</a>
             </li>
         </ul>
-        <a ui-sref="detail({data: i})">Detail</a>
-    </li>
-</ul>
+
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-cookies.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.5.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,11 +1,45 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CS5200</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+
+
+
+
 <div ng-controller="ProfileCtrl">
-    Edit Payment {{cardNumber}}
-    <form name="payment">
-        Address: <input type="text" ng-model="cardAddress" placeholder="Address" name="address">
-        ExpirationDate: <input type="text" ng-model="expirationDate" placeholder="mm/dd/yyyy" name="date">
-        Type:
-        <select name="Type" ng-model="cardType" ng-options="option for option in typeoptions">
-        </select>
-        <button class="btn btn-default" type="submit" ng-click="editPayment()"> update </button>
+    <div class="page-header"><h3><b>Edit Payment {{cardNumber}}</b></h3></div>
+    <form name="payment" class="form-inline">
+        <div class="form-group"><label>Address: </label><input type="text" ng-model="cardAddress" class="form-control" placeholder="Address" name="address"></div>&nbsp;&nbsp;&nbsp;
+        <div class="form-group"><label>Expiration Date: </label><input type="text" ng-model="expirationDate" class="form-control"  placeholder="mm/dd/yyyy" name="date"></div>&nbsp;&nbsp;&nbsp;
+        <div class="form-group"><label>Type:</label>
+            <select name="Type" class="form-control"  ng-model="cardType" ng-options="option for option in typeoptions">
+            </select></div>&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-warning" type="submit" ng-click="editPayment()"> update </button>
     </form>
 </div>
+
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-cookies.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.5.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+
