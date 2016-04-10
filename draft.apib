@@ -299,7 +299,8 @@ Allow user to view and edit his shopping cart
             {
                 "UserId":1,
                 "InventoryId":1,
-                "Quantity":3
+                "Quantity":3,
+                "ShoppingCartId":0
             }
 
 + Response 200
@@ -316,7 +317,7 @@ Allow user to view and edit his shopping cart
               "error":"Cannot verify identity"
             }
 
-## Shopping cart [/shoppingcart{?userid,inventoryid}]
+## Shopping cart [/shoppingcart{?userid,inventoryid,shoppingcartid}]
 ### Delete shopping cart [DELETE]
 + Response 200
   + body

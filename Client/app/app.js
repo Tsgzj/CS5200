@@ -177,6 +177,7 @@ myApp = angular.module('myApp', [
       				url: server + "/shoppingcart?UserId=" + $cookies.get("uid")
       			}).then(function(response){
       				$scope.data=response.data;
+                    $cookies.put("shopcartid", response.data.ShoppingCartId),
                     console.log($scope.data.ShoppingCartId);
                     var sum = 0;
                     if($scope.data.Item) {
@@ -371,6 +372,7 @@ myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$
             requestData["Quantity"] = $scope.number;
             requestData["InventoryId"] = $scope.item.InventoryId;
             requestData["UserId"] = Number($cookies.get("uid"));
+            requestData["ShoppingCartId"] = $cookies.get("shopcartid")
             $http.post(server + "/shoppingcart", requestData).success(
                 $state.go('shoppingcart')
             ).error(
@@ -382,7 +384,7 @@ myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$
         }
     }
     $scope.deleteCart = function (id) {
-        $http.delete(server + "/shoppingcart?userid=" + $cookies.get('uid') + "&inventoryid=" + id)
+        $http.delete(server + "/shoppingcart?userid=" + $cookies.get('uid') + "&inventoryid=" + id + "&shoppingcartid=" + $cookies.get("shopcartid"))
             .success(
                 $state.go('shoppingcart')
             ).error(
@@ -442,6 +444,7 @@ myApp.controller('CheckoutCtrl', ['$scope', '$log', '$state', '$cookies', '$http
                 data: requestData
             }).then(function(response) {
                 console.log(response.data.CartOrderId);
+                $cookies.remove("shopcartid");
                 $state.go('orderconfirm', {confirm: response.data.CartOrderId});
             }, function() {
                 window.alert("Failed to update payment.")
