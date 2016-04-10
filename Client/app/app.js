@@ -178,10 +178,10 @@ myApp = angular.module('myApp', [
       			}).then(function(response){
       				$scope.data=response.data;
                     var sum = 0;
-                    if($scope.data.item) {
-                        for (var i = 0; i < $scope.data.item.length; i++) {
-                            if (i in $scope.data.item) {
-                                var s = $scope.data.item[i];
+                    if($scope.data.Item) {
+                        for (var i = 0; i < $scope.data.Item.length; i++) {
+                            if (i in $scope.data.Item) {
+                                var s = $scope.data.Item[i];
                                 sum += s.Price * s.Discount * s.Quantity;
                             }
                         }

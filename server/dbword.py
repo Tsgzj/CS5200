@@ -257,50 +257,30 @@ def insertinventory (title, description, price, discount, category, available,us
 
 #8. View shopping cart
 def getshoppingcart(user_id):
-    try:
-        query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
-        args = user_id
-        tray.execute(query, args)
-    except:
-        print ("error: Cannot find inventory")
+    query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
+    args = user_id
+    tray.execute(query, args)
     dbhandle.commit()
 
-    inveninfo = {}
-    inveninfo["error"] = "nil"
-    inveninfo["Inventory"] = []
+            #query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
+        #inv.id, inv.title, inv.description, inv.price, inv.discount, inv.cateogry, inv.available, i.quantity
+
+
+    shoppingcart = {"error":"nil"}
+    shoppingcart["Item"] = []
     for item in tray.fetchall():
         print item[0],item[2],item[3],item[4],item[5]
-        inven = {
+        item = {
             "InventoryId": item[0],
             "Discription":item[3],
             "Title":item[2],
             "Price":item[4],
             "Discount":item[5],
             "Category":item[6],
-            "Available":item[7]
+            "Available":item[7],
+            "Quantity":item[8],
         }
-        inveninfo["Inventory"].append(inven.copy())
-
-    return inveninfo
-        #query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
-        #inv.id, inv.title, inv.description, inv.price, inv.discount, inv.cateogry, inv.available, i.quantity
-
-
-    #shoppingcart = {"error":"nil"}
-    #shoppingcart["Item"] = []
-    #for item in tray.fetchall():
-    #    print item[0],item[2],item[3],item[4],item[5]
-    #    item = {
-    #        "InventoryId": item[0],
-    #        "Discription":item[2],
-    #        "Title":item[1],
-    #        "Price":item[3],
-    #        "Discount":item[4],
-    #        "Category":item[5],
-    #        "Available":item[6],
-    #        "Quantity":item[7],
-    #    }
-    #    shoppingcart["Item"].append(item.copy())
+        shoppingcart["Item"].append(item.copy())
 
     return shoppingcart
 
