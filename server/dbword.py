@@ -314,16 +314,35 @@ def checkout(userid, cardid, shippingaddressid, billingaddresid):
 
 #13. Search in inventory
 def search(category):
-    try:
-        query = " Select * from inventory where category = %s"
-        args = int(category)
-        tray.execute (query, args)
-    except:
-        print ("error: Cannot find the category")
+    query = " Select * from Inventory where category = %s"
+    args = [category]
+
+    #print query
+
+    tray.execute (query,args)
     dbhandle.commit()
-    return tray.fetchall()
-    #for item in tray.fetchall():
-    #print item
+    
+    invinfo={}
+    invinfo["Inventory"] = []
+    #print userinfo["payment"][0]
+    
+    for item in tray.fetchall():
+        print item
+        #print item[0],item[2],item[3],item[4],item[5]
+    
+        invitem= {
+            "InventoryId":item[0],
+            "Title":item[2],
+            "Description":item[3],
+            "Price":item[4],
+            "Discount":item[5],
+            "Category":item[6],
+            "Available":item[7]
+        }
+        invinfo["Inventory"].append(invitem.copy())
+    
+
+    return invinfo
 
 
 
