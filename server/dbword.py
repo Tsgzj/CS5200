@@ -257,8 +257,8 @@ def insertinventory (title, description, price, discount, category, available,us
 
 #8. View shopping cart
 def getshoppingcart(user_id):
-    query = "SELECT * FROM inventory inv, item i WHERE exists( select *  from shoppingcart s, customer c, user u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s)"
-    args = user_id
+    query = "SELECT * FROM Inventory inv, Item i WHERE exists( select *  from ShoppingCart s, Customer c, User u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s and not exists (select * from CartOrder ord where s.id=ord.id))"
+    args = [user_id]
     tray.execute(query, args)
     dbhandle.commit()
 
@@ -270,7 +270,7 @@ def getshoppingcart(user_id):
     shoppingcart["Item"] = []
     shoppingcart["ShoppingCartId"] = ''
     for item in tray.fetchall():
-        print item[0],item[2],item[3],item[4],item[5]
+        #print item[0],item[2],item[3],item[4],item[5]
         inven = {
             "InventoryId": item[0],
             "Discription":item[3],
@@ -319,17 +319,32 @@ def getorderdetail( cartorder_id, user_id ):
     dbhandle.commit()
 
 #12. Checkout
-def checkout(userid, cardid, shippingaddressid, billingaddresid):
-    try:
-        query = " Insert into CartOrder (id) values (%s) where exists( Select * from shoppingcart s, customer c, user u, card ca where s.addedby= c.id and CartOrder.id = s.id and c.id = %s and ca.id = %s and where exist( Select * from address a where a.id= %s and a.type = 1) and where exists ( Select * from address aa where aa.id= %s and aa.type = 2 ) )"
-        args = int(userid), int(userid) , int (cardid) , int (shippingaddressid), int (billingaddresid)
-        tray.execute (query, args)
-        query1 = " Delete from shoppingcart s where s.id = %s"
-        args1 =  int( userid)
-        tray.execute (query1, args1)
-    except:
-        print ( "cannot verify identity" )
+def checkout(userid,cardid,cartid,shippingaddressid, billingaddresid):
+    query = "Insert into CartOrder(id,status,shipsto) values (%s,'confirmed',%s)"
+    args = (cartid,shippingaddressid)
+    print query
+    tray.execute (query, args)
     dbhandle.commit()
+    query1 = "Insert into Payment(cust_id,order_id,paidwith) values (%s,%s,%s)"
+    args1 =  (userid,cartid,cardid)
+    tray.execute (query1, args1)
+    dbhandle.commit()
+    query2 = "Select transaction_number from Payment where order_id=%s"
+    args2 =  [cartid]
+    tray.execute (query2, args2)
+    dbhandle.commit()
+    tnumber=tray.fetchone()[0]
+
+    checkval={}
+    checkval["CartOrderId"]=cartid
+    checkval["TransactionId"]=tnumber
+
+    query3 = "Insert into ShoppingCart(addedby,price) values (%s,0)"
+    args3 =  [userid]
+    tray.execute (query3, args3)
+    dbhandle.commit()
+
+    return checkval
 
 
 #13. Search in inventory
@@ -347,7 +362,7 @@ def search(category):
     #print userinfo["payment"][0]
 
     for item in tray.fetchall():
-        print item
+        #print item
         #print item[0],item[2],item[3],item[4],item[5]
 
         invitem= {
