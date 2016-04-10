@@ -184,7 +184,7 @@ myApp = angular.module('myApp', [
                             sum += s.Price * s.Discount * s.Quantity;
                         }
                     }
-                    $scope.total = sum;
+                    $scope.total = parseFloat(sum).toFixed(2);
       			}, function(response){
       				window.alert("Please Login first.")
       			});
@@ -266,12 +266,12 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
         var requestData = {};
         //console.log($scope.cardNumber);
         if($scope.preChk()) {
-            requestData["\"UserId\""] = Number($cookies.get("uid")),
-            requestData["\"CardNumber\""] = $scope.cardNumber,
-            requestData["\"Address\""] = $scope.cardAddress,
-            requestData["\"ExpirationDate\""] = $scope.expirationDate,
-            requestData["\"Type\""] = $scope.cardType,
-            $http.post(server + "/user/payment/update?cardId=" + $scope.cardNumber, requestData).success(
+            requestData["UserId"] = Number($cookies.get("uid")),
+            requestData["CardNumber"] = $scope.cardNumber,
+            requestData["Address"] = $scope.cardAddress,
+            requestData["ExpirationDate"] = $scope.expirationDate,
+            requestData["Type"] = $scope.cardType,
+            $http.post(server + "/user/updatepayment?cardId=" + $scope.cardNumber, requestData).success(
                 $state.go('profile')
             ).error(
                 window.alert("Failed to update payment.")
@@ -357,9 +357,9 @@ myApp.controller('ShoppingCartCtrl', ['$scope', '$log', '$state', '$cookies', '$
     $scope.addToCart = function () {
         var requestData = {};
         if($scope.preChk($scope.item.Available, $scope.number)) {
-            requestData["\"Quantity\""] = $scope.number;
-            requestData["\"InventoryId\""] = $scope.item.InventoryId;
-            requestData["\"UserId\""] = Number($cookies.get("uid"));
+            requestData["Quantity"] = $scope.number;
+            requestData["InventoryId"] = $scope.item.InventoryId;
+            requestData["UserId"] = Number($cookies.get("uid"));
             $http.post(server + "/shoppingcart", requestData).success(
                 $state.go('shoppingcart')
             ).error(
@@ -419,10 +419,10 @@ myApp.controller('CheckoutCtrl', ['$scope', '$log', '$state', '$cookies', '$http
         $scope.checkout = function() {
             //console.log("Check Out");
             var requestData = {};
-            requestData["\"UserId\""] = Number($cookies.get("uid"));
-            requestData["\"CardId\""] = $scope.cards.CardId;
-            requestData["\"ShippingAddressId\""] = $scope.shipping.AddressId;
-            requestData["\"BillingAddressId\""] = $scope.billing.AddressId;
+            requestData["UserId"] = Number($cookies.get("uid"));
+            requestData["CardId"] = $scope.cards.CardId;
+            requestData["ShippingAddressId"] = $scope.shipping.AddressId;
+            requestData["BillingAddressId"] = $scope.billing.AddressId;
             //console.log(requestData);
             $http({
                 method: "POST",

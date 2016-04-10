@@ -104,7 +104,7 @@ def getcards():
 
     return jsonify(resp),200
 
-@app.route("/user/payment/update",methods=['POST'])
+@app.route("/user/updatepayment",methods=['POST'])
 def updatecard():
 
     cardid = request.args.get('cardId')
@@ -121,7 +121,7 @@ def updatecard():
         expdate=req.get("ExpirationDate")
         ctype=req.get("Type")
 
-        updatecardpaymentinfo(uid,cardid,cardnum, address, expdate, ctype)
+        updatecardpaymentinfo(uid,cardid, address, expdate, ctype)
 
         resp = {"error":"nil"}
 
@@ -156,9 +156,8 @@ def getinventory():
 
     invname = request.args.get('title')
 
-    #invdetail = getinvdetails(invname)
-
-    resp = {"error":"nil"}
+    resp = getinventoryinfo(invname)
+    print("RESP::::::%s" % resp)
 
     return jsonify(resp),200
 

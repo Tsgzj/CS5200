@@ -199,12 +199,13 @@ def insertcardpaymentinfo(cust_id, cardnumber, address, expirationdate, ctype):
     dbhandle.commit()
 
 #5. Update Payment
-def updatecardpaymentinfo(cust_id, card_id,cardnumber, address, expirationdate, ctype):
+def updatecardpaymentinfo(cust_id, card_id, address, expirationdate, ctype):
     expd=expirationdate.split("/")
+
     exdate=datetime.date(int(expd[2]),int(expd[1]),int(expd[0]))
 
-    query = "Update Card set cardnumber = %s and address = %s and expirationdate= %s and type = %s where exists (select * from Card c where c.custid = %s and c.id = %s)"
-    args = (cardnumber, address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
+    query = "Update Card set address = %s and expirationdate= %s and type = %s where exists (select * from Card c where c.custid = %s and c.id = %s)"
+    args = (address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
     tray.execute (query, args)
 
     dbhandle.commit()
@@ -214,15 +215,33 @@ def updatecardpaymentinfo(cust_id, card_id,cardnumber, address, expirationdate, 
 
 
 #6 view inventory info
-def getinventoryinfo( title ):
+def getinventoryinfo(title):
     try:
-        query = " Select * from inventory where title = %s"
-        args = title
+        query = " Select * from inventory where title LIKE %s"
+        args = ['%' + title + '%']
         tray.execute (query, args)
     except:
         print ("error: Cannot find inventory")
+        return None
     dbhandle.commit()
-    return tray.fetchall()
+
+    inveninfo = {}
+    inveninfo["Inventory"] = []
+    for item in tray.fetchall():
+        print item[0],item[2],item[3],item[4],item[5]
+        inven = {
+            "InventoryId": item[0],
+            "Discription":item[3],
+            "Title":item[2],
+            "Price":item[4],
+            "Discount":item[5],
+            "Category":item[6],
+            "Available":item[7]
+        }
+        inveninfo["Inventory"].append(inven.copy())
+
+    return inveninfo
+
     #for item in tray.fetchall():
     #print item
 

@@ -11,7 +11,7 @@
             Price: {{item.Price}}
         </li>
         <li>
-            Price: {{item.Discount * item.Price}}
+            Price: {{(item.Price * item.Discount).toFixed(2)}}
         </li>
         <li>
             Category: {{item.Category}}

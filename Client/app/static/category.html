@@ -10,7 +10,7 @@
                 Price: {{i.Price}}
             </li>
             <li>
-                Price After: {{i.Discount * i.Price}}
+                Price After: {{(i.Price * i.Discount).toFixed(2)}}
             </li>
         </ul>
         <a ui-sref="detail({data: i})">Detail</a>

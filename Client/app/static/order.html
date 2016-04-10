@@ -10,7 +10,7 @@ Order Info
         Quantity: {{i.Quantity}}
     </li>
     <li>
-        Price: {{i.Price * i.Discount}}
+        Price: {{(i.Price * i.Discount).toFixed(2)}}
     </li>
 </ul>
 Total Price : {{total}}
@@ -26,3 +26,5 @@ Total Price : {{total}}
         Estimated Arriving: {{data.Delivery.esttime}}
     </li>
 </ul>
+
+
