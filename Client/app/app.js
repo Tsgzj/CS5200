@@ -176,19 +176,18 @@ myApp = angular.module('myApp', [
       				method : "GET",
       				url: server + "/shoppingcart?UserId=" + $cookies.get("uid")
       			}).then(function(response){
-      				$scope.data=response.data;
                     $cookies.put("shopcartid", response.data.ShoppingCartId),
-                    console.log($scope.data.ShoppingCartId);
+                    $scope.json=response.data;
                     var sum = 0;
-                    if($scope.data.Item) {
-                        for (var i = 0; i < $scope.data.Item.length; i++) {
-                            if (i in $scope.data.Item) {
-                                var s = $scope.data.Item[i];
+                    if($scope.json.Item.length>0) {
+                        for (var i = 0; i < $scope.json.Item.length; i++) {
+                            if (i in $scope.json.Item) {
+                                var s = $scope.json.Item[i];
                                 sum += s.Price * s.Discount * s.Quantity;
                             }
                         }
                         $scope.total = parseFloat(sum).toFixed(2);
-                        $scope.cancheckout = true
+                        $scope.cancheckout = true;
                     }
                     else {
                         $scope.message = "You have nothing in your cart";
@@ -210,8 +209,8 @@ myApp = angular.module('myApp', [
             controller: function($scope, $stateParams) {
                 $scope.items = $stateParams.item;
                 $scope.total = $stateParams.total;
-                $scope.shopcartid = $stateParams.shopcartid;
-                console.log($stateParams.shopcartid)
+                $scope.shopcCartId = $stateParams.shopcartid;
+                console.log($stateParams.shopCartId)
             }
         })
         .state('addInventory',{
@@ -250,7 +249,8 @@ myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http',
     $scope.logout = function() {
         $http.delete(server + "/session?uid=" + $cookies.get("uid")
         ).success(
-            $cookies.remove("uid"),
+            $cookies.remove('uid'),
+            $cookies.remove('shopcartid'),
             $state.go('front')
         ).error(
             window.alert("Something wrong happend")
@@ -449,7 +449,7 @@ myApp.controller('CheckoutCtrl', ['$scope', '$log', '$state', '$cookies', '$http
             var requestData = {};
             requestData["UserId"] = Number($cookies.get("uid"));
             requestData["CardId"] = $scope.cards.CardId;
-            requestData["CartId"] = $scope.shopcartid;
+            requestData["CartId"] = Number($cookies.get("shopcartid"));
             requestData["ShippingAddressId"] = $scope.shipping.AddressId;
             requestData["BillingAddressId"] = $scope.billing.AddressId;
             //console.log(requestData);

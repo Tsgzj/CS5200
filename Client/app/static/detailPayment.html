@@ -1,17 +1,23 @@
-<li ng-repeat="i in data.Payment">
-    <ul>
-        <li>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header"><h3><b>Your Payment details</b></h3></div>
+
+        <li ng-repeat="i in data.Payment">
+            <ul>
+                <li><span class="glyphicon glyphicon-hand-right">
             {{i.CardNumber}} {{i.Type}}
-        </li>
-        <li>
+            </span>
+                </li>
+                <li><span class="glyphicon glyphicon-hand-right">
             {{i.Address}}
-        </li>
-        <li>
+            </span>
+                </li>
+                <li><span class="glyphicon glyphicon-hand-right">
             {{i.ExpirationDate}}
+            </span>
+                </li>
+                <a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>
+            </ul>
         </li>
-        <a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>
-    </ul>
-</li>
-
-
-
+    </div>
+</div>
