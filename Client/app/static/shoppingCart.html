@@ -18,10 +18,10 @@
                         <label>Price: </label>{{(a.Price * a.Discount).toFixed(2)}}
                     </li>
                     <li>
-                        <label> Quantity: </label>{{a.Quantity}} &nbsp;&nbsp; &nbsp;&nbsp;<a class="btn btn-danger"  ng-controller="ShoppingCartCtrl" ng-click="deleteCart(i.InventoryId)">Delete This Item</a>
+                        <label> Quantity: </label>{{a.Quantity}} &nbsp;&nbsp; &nbsp;&nbsp;<a class="btn btn-danger"  ng-controller="ShoppingCartCtrl" ng-click="deleteCart(a.InventoryId)">Delete This Item</a>
                     </li>
 
             </div>
-            <a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.Item, total: total, shopcartid: data.ShoppingCartId})" ng-hide="!cancheckout">Check Out</a>
+            <a class="btn btn-primary" type="submit" ui-sref="checkout({item: json.Item, total: total, shopcartid: json.ShoppingCartId})" ng-hide="!cancheckout">Check Out</a>
         </div>
 </div>
