@@ -128,7 +128,7 @@ def getuserinfo(userid):
         corder= {
             "CartOrderId": item[0]
         }
-        userinfo["Order"].append(addr.copy())
+        userinfo["Order"].append(corder.copy())
 
     try:
         #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
@@ -454,66 +454,3 @@ def search(category):
 
 
     return invinfo
-
-
-
-
-
-
-
-
-
-"""
-insertuser(username, password)
-loginuser(username, password)
-getuserinfo(userid)
-getpaymentnfo(custid)
-insertcardpaymentinfo(cust_id, cardnumber, address, expirationdate, ctype)
-updatecardpaymentinfo(cardnumber, address, expirationdate, ctype, cust_id, card_id )
-getinventoryinfo( title )
-insertinventory (title, description, price, discount, category, available,userid)
-getshoppingcart(user_id)
-updateshoppingcart(quantity, inventory_id, user_id)
-deleteshoppingcart(inventory_id, user_id)
-getorderdetail( cartorder_id, user_id )
-search(category)
-"""
-
-
-
-
-
-"""
-payment = {'cardnumber': 123456789012 , 'address' : "kandivali" , 'expirationdate' : 2016-04-04 , 'ctype' : 2 }
-insertcardpaymentinfo(1002, payment)
-"""
-
-
-
-"""
-file = json.loads(api):
-cardinfo = file.payment[cardnumber]
-
-insertuser(username,password, cardinfo)
-#insertpaymentinfo()
-
-
-
-inquery1 = "INSERT INTO user values(123,'rty123','password')"
-inquery2 = "INSERT INTO user values(124,'rty124','password')"
-
- #   'inquery3' : "INSERT INTO user values(125,'rty125','password')" }
-
-#tray.execute(inquery1)
-# tray.execute(inquery2)
-
-
-dbhandle.commit()
-
-tray.execute("select * from user")
-
-for item in tray.fetchall():
-    print item
-
-
-"""
