@@ -127,10 +127,14 @@ myApp = angular.module('myApp', [
             url: "/editpayment",
             templateUrl: "static/editPayment.html",
             params: {
-                cardNumber: null
+                cardNumber: null,
+                cardId: null
             },
             controller: function ($scope, $stateParams) {
-                $scope.cardNumber = $stateParams.cardNumber
+                console.log("Here");
+                $scope.cardNumber = $stateParams.cardNumber;
+                $scope.cardId = $stateParams.cardId;
+                console.log($scope.cardId)
             }
         })
         .state('order', {
@@ -298,7 +302,7 @@ myApp.controller('ProfileCtrl', ['$scope', '$http', '$state', '$cookies', functi
             requestData["Address"] = $scope.cardAddress,
             requestData["ExpirationDate"] = $scope.expirationDate,
             requestData["Type"] = $scope.cardType,
-            $http.post(server + "/user/updatepayment?cardId=" + $scope.cardNumber, requestData).success(
+            $http.post(server + "/user/updatepayment?cardId=" + $scope.cardId, requestData).success(
                 $state.go('profile')
             ).error(
                 window.alert("Failed to update payment.")
