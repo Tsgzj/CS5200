@@ -199,9 +199,14 @@ def updatecart():
     if request.json:
         req=request.json
 
+        uid=req.get("UserId")
+        cartid=req.get("ShoppingCartId")
+        quant=req.get("Quantity")
+        invid=req.get("InventoryId")
+
     #add/update shopping cart
 
-    resp = {"error":"nil"}
+        resp = updateshoppingcart(cartid,quant,invid,uid)
 
     return jsonify(resp),200
 
@@ -214,9 +219,12 @@ def removefromcart():
     if request.json:
         req=request.json
 
+        
+
+
     #remove from cart
 
-    resp = {"error":"nil"}
+    resp =  {"error":"nil"}
 
     return jsonify(resp),200
 
@@ -241,9 +249,15 @@ def createorder():
     if request.json:
         req=request.json
 
-    #create new order/ we may need shoppiong cart id
+        uid=req.get("UserId")
+        cardid=req.get("CardId")
+        cartid=req.get("CartId")
+        saddress=req.get("ShippingAddressId")
+        baddress=req.get("BillingAddressId")
 
-    resp = {"error":"nil"}
+        resp=checkout(uid,cardid,cartid,saddress,baddress)
+
+        resp ["error"]="nil"
 
     return jsonify(resp),200
 
