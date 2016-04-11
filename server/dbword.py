@@ -130,6 +130,24 @@ def getuserinfo(userid):
         }
         userinfo["Order"].append(addr.copy())
 
+    try:
+        #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
+        query = "Select * from CustomerContact where custid=%s"
+        args = (userid)
+        tray.execute(query, args)
+    except:
+        print ( "customer not found" )
+
+    userinfo["Contact"] = []
+    #print userinfo["payment"][0]
+
+    for item in tray.fetchall():
+        print item[1]
+        custcontact= {
+            "contact": item[1]
+        }
+        userinfo["Contact"].append(custcontact.copy())
+
     return userinfo
 
 
