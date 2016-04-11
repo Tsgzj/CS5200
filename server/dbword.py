@@ -249,14 +249,12 @@ def getinventoryinfo(title):
 
 #7 Add an inventory
 def insertinventory (title, description, price, discount, category, available,userid):
-    try:
-        query = " Insert into inventory(title, description, price, discount, category, available) values (%s,%s,%s,%s,%s,%s,) where exists( select * from inventorymanager i  where i.id = %s)"
-        args = title, description, double(price), double (discount), int (category), int (available), int(managedby), int(userid)
-        tray.execute (query, args)
-    except:
-        print ( " do not have permission to add" )
+    query = "Insert into Inventory(title, description, price, discount, category, available,managedby) select %s,%s,%s,%s,%s,%s,%s from InventoryManager i where i.id=%s and i.Position=%s"
+    args = (title, description, price, discount, category,available,userid,userid,category)
+    tray.execute (query, args)
     dbhandle.commit()
-
+    result = {"error":"nil"}
+    return result
 
 #8. View shopping cart
 def getshoppingcart(user_id):

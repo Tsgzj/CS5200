@@ -170,9 +170,15 @@ def addinventory():
     if request.json:
         req=request.json
 
-    #add to inventory based on manager
+        uid=req.get("UserId")
+        title=req.get("Title")
+        descp=req.get("Description")
+        price=req.get("Price")
+        discount=req.get("Discount")
+        category=req.get("Category")
+        available=req.get("Available")
 
-    resp = {"error":"nil"}
+    resp = insertinventory (title, descp, price, discount, category, available,uid)
 
     return jsonify(resp),200
 
