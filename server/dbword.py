@@ -293,24 +293,24 @@ def updateshoppingcart(cartid,quant, inventory_id, user_id):
     tray.execute (query, args)
     dbhandle.commit()
 
+    updateCartPrice(cartid)
+
+    return shoppingcart
+
+def updateCartPrice(cartid):
     query2="update ShoppingCart set price=(select sum(i.quantity*(inv.price-inv.discount)) from Item i, Inventory inv where i.inv_id=inv.id and shopcart_id=%s) where id=%s"
     args2=(cartid,cartid)
     tray.execute (query2, args2)
     dbhandle.commit()
 
 
-    return shoppingcart
-
-
 #10. Delete shopping cart
-def deleteshoppingcart(inventory_id, user_id):
-    try:
-        query = " delete from item i where exist (  select * from inventory in, shoppincart s , customer c, user u where i.inv_id = in.id and i.shoppingcart_id = s.id  and s.addedby = c.id  and c.id = u.id and i.inv_id= %s and u.id = %s"
-        args =  int(inventory_id), int (user_id)
-        tray.execute (query, args)
-    except:
-        print ( "cannot verify identity" )
+def deleteshoppingcart(inventory_id, user_id,cartid):
+    query = "delete from Item where inv_id=%s and shopcart_id=%s and exists (select * from User u, Customer c, ShoppingCart sc where u.id=%s and u.id=c.id and c.id=sc.addedby and sc.id=%s)"
+    args =  (inventory_id,cartid,user_id,cartid)
+    tray.execute (query, args)
     dbhandle.commit()
+    updateCartPrice(cartid)
 
 #11. view order detail
 def getorderdetail( cartorder_id, user_id ):

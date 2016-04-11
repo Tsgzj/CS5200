@@ -213,13 +213,11 @@ def updatecart():
 @app.route("/shoppingcart",methods=['DELETE'])
 def removefromcart():
 
-    if not request.json:
-        abort(400)
+    uid = request.args.get('userid')
+    inventoryid = request.args.get('inventoryid')
+    shoppingcartid = request.args.get('shoppingcartid')
 
-    if request.json:
-        req=request.json
-
-        
+    resp = deleteshoppingcart(inventoryid,uid,shoppingcartid)
 
 
     #remove from cart
