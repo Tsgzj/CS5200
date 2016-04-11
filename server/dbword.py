@@ -313,14 +313,39 @@ def deleteshoppingcart(inventory_id, user_id,cartid):
     updateCartPrice(cartid)
 
 #11. view order detail
-def getorderdetail( cartorder_id, user_id ):
-    try:
-        query = " select  * from item where exist (  select * from  shoppingcart s, cartoder co, inventory in, customer c, user u where in.id= i.inv_id and i.shoppingcart_id = s.id  and s.addedby = c.id  and c.id = u.id and co.id = s.id and co.id = %s and u.id = %s"
-        args =  int(cartorder_id), int (user_id)
-        tray.execute (query, args)
-    except:
-        print ( "cannot verify identity" )
+def getorderdetail(cartorder_id, user_id):
+    query = "select co.id,inv.*,i.quantity,co.status,d.carrier,d.est_time from Inventory inv, Item i,CartOrder co,Delivery d where i.shopcart_id=%s and i.inv_id=inv.id and i.shopcart_id=co.id and co.id=d.id"
+    args = [cartorder_id]
+
+    tray.execute (query,args)
     dbhandle.commit()
+
+    orderdetail = {"error":"nil"}
+    orderdetail["Item"] = []
+    orderdetail["ShoppingCartId"] = ''
+    varz=tray.fetchall()
+    for item in varz:
+        print item[0],item[2],item[3],item[4],item[5]
+        inven = {
+            "InventoryId": item[1],
+            "Discription":item[4],
+            "Title":item[3],
+            "Price":item[5],
+            "Discount":item[6],
+            "Category":item[7],
+            "Available":item[8],
+            "Quantity":item[9],
+        }
+        orderdetail["status"] = item[10]
+        deliver = {
+            "Carrier": item[11],
+            "esttime": item[12]
+        }
+        orderdetail["Item"].append(inven.copy())
+        orderdetail["Delivery"]=deliver.copy()
+        orderdetail["ShoppingCartId"] = item[0]
+
+    return orderdetail
 
 #12. Checkout
 def checkout(userid,cardid,cartid,shippingaddressid, billingaddresid):

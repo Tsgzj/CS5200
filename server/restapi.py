@@ -230,11 +230,9 @@ def removefromcart():
 def getorder():
 
     uid = request.args.get('UserId')
-    CartOrderID = request.args.get('CartOrderID')
+    CartOrderID = request.args.get('CartOrderId')
 
-    #getlistofitemsfromorder
-
-    resp = {"error":"nil"}
+    resp = getorderdetail(CartOrderID,uid)
 
     return jsonify(resp),200
 
