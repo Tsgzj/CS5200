@@ -275,14 +275,37 @@ def insertinventory (title, description, price, discount, category, available,us
 
 #8. View shopping cart
 def getshoppingcart(user_id):
-    query = "SELECT * FROM Inventory inv, Item i WHERE exists( select *  from ShoppingCart s, Customer c, User u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s and not exists (select * from CartOrder ord where s.id=ord.id))"
+    shoppingcart = {"error":"nil"}
+
+    query = "select s.id from ShoppingCart s, Customer c, User u where s.addedby = c.id and c.id = u.id and u.id = %s and not exists (select * from CartOrder ord where s.id=ord.id)"
+
     args = [user_id]
     tray.execute(query, args)
     dbhandle.commit()
 
-    shoppingcart = {"error":"nil"}
+    for item in tray.fetchall():
+        shoppingcart["ShoppingCartId"] = item[0]
+
+    if "ShoppingCartId" not in shoppingcart:
+        createshoppingcart(user_id)
+
+        query = "select s.id from ShoppingCart s, Customer c, User u where s.addedby = c.id and c.id = u.id and u.id = %s and not exists (select * from CartOrder ord where s.id=ord.id)"
+
+        args = [user_id]
+        tray.execute(query, args)
+        dbhandle.commit()
+
+        for item in tray.fetchall():
+            shoppingcart["ShoppingCartId"] = item[0]
+
+    query2 = "SELECT * FROM Inventory inv, Item i WHERE exists( select *  from ShoppingCart s, Customer c, User u where inv.id = i.inv_id and i.shopcart_id = s.id and s.addedby = c.id and c.id = u.id and u.id = %s and not exists (select * from CartOrder ord where s.id=ord.id))"
+    args2 = [user_id]
+    tray.execute(query2, args2)
+    dbhandle.commit()
+
+    
     shoppingcart["Item"] = []
-    shoppingcart["ShoppingCartId"] = ''
+    #shoppingcart["ShoppingCartId"] = ''
     for item in tray.fetchall():
         #print item[0],item[2],item[3],item[4],item[5]
         inven = {
@@ -296,7 +319,10 @@ def getshoppingcart(user_id):
             "Quantity":item[8],
         }
         shoppingcart["Item"].append(inven.copy())
-        shoppingcart["ShoppingCartId"] = item[10]
+        #shoppingcart["ShoppingCartId"] = item[10]
+
+    #if "ShoppingCartId" not in shoppingcart:
+    #    createshoppingcart(user_id)
 
     return shoppingcart
 
@@ -386,12 +412,15 @@ def checkout(userid,cardid,cartid,shippingaddressid, billingaddresid):
     checkval["CartOrderId"]=cartid
     checkval["TransactionId"]=tnumber
 
+    createshoppingcart(userid)
+
+    return checkval
+
+def createshoppingcart(userid):
     query3 = "Insert into ShoppingCart(addedby,price) values (%s,0)"
     args3 =  [userid]
     tray.execute (query3, args3)
     dbhandle.commit()
-
-    return checkval
 
 
 #13. Search in inventory
