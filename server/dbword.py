@@ -397,6 +397,13 @@ def checkout(userid,cardid,cartid,shippingaddressid, billingaddresid):
     checkval["CartOrderId"]=cartid
     checkval["TransactionId"]=tnumber
 
+    exdate=datetime.date(2016,05,02)
+
+    query3 = "Insert into Delivery(id,carrier,est_time) values (%s,'usps',%s)"
+    args3 = (cartid,exdate.strftime('%Y-%m-%d %H:%M:%S'))
+    tray.execute (query3, args3)
+    dbhandle.commit()
+
     createshoppingcart(userid)
 
     return checkval
