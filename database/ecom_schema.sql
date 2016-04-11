@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.46, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ecom
 -- ------------------------------------------------------
--- Server version	5.5.47-0ubuntu0.14.04.1
+-- Server version	5.5.46-0ubuntu0.14.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,7 +33,7 @@ CREATE TABLE `Address` (
   PRIMARY KEY (`id`),
   KEY `cust_id` (`cust_id`),
   CONSTRAINT `Address_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +54,7 @@ CREATE TABLE `Card` (
   UNIQUE KEY `cardnumber` (`cardnumber`),
   KEY `custid` (`custid`),
   CONSTRAINT `Card_ibfk_1` FOREIGN KEY (`custid`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,8 +70,8 @@ CREATE TABLE `CartOrder` (
   `shipsto` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `CartOrder_ibfk_2` (`shipsto`),
-  CONSTRAINT `CartOrder_ibfk_2` FOREIGN KEY (`shipsto`) REFERENCES `Address` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `CartOrder_ibfk_1` FOREIGN KEY (`id`) REFERENCES `ShoppingCart` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `CartOrder_ibfk_1` FOREIGN KEY (`id`) REFERENCES `ShoppingCart` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CartOrder_ibfk_2` FOREIGN KEY (`shipsto`) REFERENCES `Address` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -153,7 +153,7 @@ CREATE TABLE `Inventory` (
   PRIMARY KEY (`id`),
   KEY `managedby` (`managedby`),
   CONSTRAINT `Inventory_ibfk_1` FOREIGN KEY (`managedby`) REFERENCES `InventoryManager` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +208,7 @@ CREATE TABLE `Payment` (
   CONSTRAINT `Payment_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Payment_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `CartOrder` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Payment_ibfk_3` FOREIGN KEY (`paidwith`) REFERENCES `Card` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,11 +235,11 @@ DROP TABLE IF EXISTS `ShoppingCart`;
 CREATE TABLE `ShoppingCart` (
   `price` double NOT NULL,
   `addedby` int(11) NOT NULL,
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
   KEY `ShoppingCart_ibfk_1` (`addedby`),
   CONSTRAINT `ShoppingCart_ibfk_1` FOREIGN KEY (`addedby`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +255,7 @@ CREATE TABLE `User` (
   `password` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -267,4 +267,4 @@ CREATE TABLE `User` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-01 22:32:23
+-- Dump completed on 2016-04-10 22:48:37
