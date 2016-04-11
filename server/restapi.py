@@ -121,7 +121,7 @@ def updatecard():
         expdate=req.get("ExpirationDate")
         ctype=req.get("Type")
 
-        updatecardpaymentinfo(uid,cardid, address, expdate, ctype)
+        updatecardpaymentinfo(uid,cardid,cardnum,address, expdate, ctype)
 
         resp = {"error":"nil"}
 

@@ -45,6 +45,10 @@ def getuserinfo(userid):
 
     if uname is not None:
         userinfo["Username"]=uname
+        userinfo["error"]="nil"
+    else:
+        userinfo["error"]="User Not Found"
+        return userinfo
 
     try:
         #query = "Select * from User u,Customer c,Card ca, Address a ,CustomerContact cc where c.id=%s and cc.custid=c.id and a.id = c.id and ca.custid= c.id"
@@ -188,19 +192,7 @@ def getpaymentnfo(custid):
         userinfo["Payment"].append(card.copy())
 
     return userinfo
-"""
-#4. Add cardpayment info
-def insertcardpaymentinfo( cust_id, payment):
-# 'cardnumber':  , 'address' : , 'expirationdate' : , 'ctype' :
-    try:
-        query = "Insert into card ( custid, cardnumber, address, expirationdate, type)values (%s,%s,%s,%s,%s)"
-        args = int(cust_id), payment['cardnumber'], payment['address'], payment['expirationdate'], int(payment['ctype'])
-        tray.execute (query, args)
-    except:
-        print ( "Cannot verify identity" )
-    dbhandle.commit()
 
-"""
 #4. Add cardpayment info
 def insertcardpaymentinfo(cust_id, cardnumber, address, expirationdate, ctype):
 
@@ -217,19 +209,17 @@ def insertcardpaymentinfo(cust_id, cardnumber, address, expirationdate, ctype):
     dbhandle.commit()
 
 #5. Update Payment
-def updatecardpaymentinfo(cust_id, card_id, address, expirationdate, ctype):
+def updatecardpaymentinfo(cust_id, card_id,cardnum,address, expirationdate, ctype):
     expd=expirationdate.split("/")
+
+    print card_id
 
     exdate=datetime.date(int(expd[2]),int(expd[1]),int(expd[0]))
 
-    query = "Update Card set address = %s and expirationdate= %s and type = %s where exists (select * from Card c where c.custid = %s and c.id = %s)"
-    args = (address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
+    query = "Update Card set cardnumber=%s,address =%s,expirationdate=%s,type =%s where id=(select id from (select * from Card c where c.custid =%s and c.id =%s) as tblTmp)"
+    args = (cardnum, address, exdate.strftime('%Y-%m-%d %H:%M:%S'),ctype,cust_id,card_id)
     tray.execute (query, args)
     dbhandle.commit()
-
-    #not working
-
-
 
 #6 view inventory info
 def getinventoryinfo(title):
