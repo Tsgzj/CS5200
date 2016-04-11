@@ -223,12 +223,9 @@ def updatecardpaymentinfo(cust_id, card_id,cardnum,address, expirationdate, ctyp
 
 #6 view inventory info
 def getinventoryinfo(title):
-    try:
-        query = " Select * from inventory where title LIKE %s"
-        args = ['%' + title + '%']
-        tray.execute (query, args)
-    except:
-        print ("error: Cannot find inventory")
+    query = " Select * from Inventory where title LIKE %s"
+    args = ['%' + title + '%']
+    tray.execute (query, args)
     dbhandle.commit()
 
     inveninfo = {}
@@ -249,8 +246,6 @@ def getinventoryinfo(title):
 
     return inveninfo
 
-    #for item in tray.fetchall():
-    #print item
 
 #7 Add an inventory
 def insertinventory (title, description, price, discount, category, available,userid):
