@@ -1,4 +1,4 @@
-Order Info
+<!--Order Info
 <ul ng-repeat="i in data.Item" ng-controller="ShoppingCartCtrl">
     <li>
         Title: {{i.Title}}
@@ -25,6 +25,40 @@ Total Price : {{total}}
     <li>
         Estimated Arriving: {{data.Delivery.esttime}}
     </li>
-</ul>
+</ul>-->
 
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+            <h3><b>Order Info</b></h3></div>
+        <ul ng-repeat="i in data.Item" ng-controller="ShoppingCartCtrl">
+            <li>
+                <label> Title:</label>&nbsp;&nbsp;{{i.Title}}
+            </li>
+            <li>
+                <label> Discription:</label>&nbsp;&nbsp;{{i.Discription}}
+            </li>
+            <li>
+                <label> Quantity: </label>&nbsp;&nbsp;{{i.Quantity}}
+            </li>
+            <li>
+                <label> Price: </label>&nbsp;&nbsp;{{(i.Price * i.Discount).toFixed(2)}}
+            </li>
+        </ul><br>
+        <label>Total Price </label>:&nbsp;&nbsp;{{total}}<br><br>
+        <ul>
+            <label> Status:</label> &nbsp;&nbsp;{{data.Status}}
+        </ul>
+        <ul>
+            <label>Delivery:</label>
+            <li>
+                <label>Carrier: </label>&nbsp;&nbsp;{{data.Delivery.Carrier}}
+            </li>
+            <li>
+                <label> Estimated Arriving: </label>&nbsp;&nbsp;{{data.Delivery.esttime}}
+            </li>
+        </ul>
+    </div>
+</div>
 

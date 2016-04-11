@@ -1,4 +1,4 @@
-<div ui-view></div>
+<!--<div ui-view></div>
 <h3>List of Items</h3>
 <ul>
     <li ng-repeat="i in items.Inventory">
@@ -15,4 +15,30 @@
         </ul>
         <a ui-sref="detail({data: i})">Detail</a>
     </li>
-</ul>
+</ul>-->
+
+<div ui-view></div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+
+
+            <h3><b>List of Items</b></h3></div>
+        <ul>
+            <li ng-repeat="i in items.Inventory">
+                <ul>
+                    <li>
+                        <label>Title:</label> {{i.Title}}
+                    </li>
+                    <li>
+                        <label> Price: </label>{{i.Price}}
+                    </li>
+                    <li>
+                        <label>Price After: </label>{{(i.Price * i.Discount).toFixed(2)}}
+                    </li>
+                </ul>
+                <a ui-sref="detail({data: i})">Detail</a>
+            </li>
+        </ul>
+    </div>
+</div>

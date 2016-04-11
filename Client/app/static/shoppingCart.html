@@ -1,21 +1,28 @@
-<li>
-    {{message}}
-</li>
-<li ng-repeat="i in data.Item" ng-controller="ShoppingCartCtrl">
-    <ul>
-        <li>
-            Title: {{i.Title}}
-        </li>
-        <li>
-            Description: {{i.Description}}
-        </li>
-        <li>
-            Price: {{(i.Price * i.Discount).toFiexed(2)}}
-        </li>
-        <li>
-            Quantity: {{i.Quantity}}
-        </li>
-        <a class="btn btn-default" ng-click="deleteCart(i.InventoryId)">Delete This Item</a>
-    </ul>
-</li>
-<a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.Item, total: total, shopcartid: data.ShoppingCartId})" ng-hide="!cancheckout">Check Out</a>
+ <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="page-header">
+
+                <h3><b>Your Shopping Cart</b></h3></div>
+
+                <h4 ng-hide="cancheckout"> {{message}}</h4>
+
+            <li ng-repeat="i in data.Item" ng-controller="ShoppingCartCtrl">
+                <ul>
+                    <li>
+                        <label>Title: </label>{{i.Title}}
+                    </li>
+                    <li>
+                        <label>Description: </label>{{i.Description}}
+                    </li>
+                    <li>
+                        <label>Price: </label>{{(i.Price * i.Discount).toFixed(2)}}
+                    </li>
+                    <li>
+                        <label> Quantity: </label>{{i.Quantity}} &nbsp;&nbsp; &nbsp;&nbsp;<a class="btn btn-danger" ng-click="deleteCart(i.InventoryId)">Delete This Item</a>
+                    </li>
+
+                </ul>
+            </li>
+            <a class="btn btn-primary" type="submit" ui-sref="checkout({item: data.Item, total: total, shopcartid: data.ShoppingCartId})" ng-hide="!cancheckout">Check Out</a>
+        </div>
+    </div>

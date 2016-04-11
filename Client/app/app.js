@@ -214,6 +214,21 @@ myApp = angular.module('myApp', [
                 console.log($stateParams.shopcartid)
             }
         })
+        .state('addInventory',{
+            url:"/addInventory",
+            templateUrl:"static/addInventory.html",
+            controller: function($scope,$http){
+                $http({
+                    method: "POST",
+                    url: server + "/inventory"
+                }).then(function(response){
+                    $scope.data=response.data;
+                })
+
+            }
+
+        })
+
 });
 
 myApp.controller('BannerCtrl', ['$scope', '$log', '$state', '$cookies', '$http', function($scope, $log, $state, $cookies, $http) {

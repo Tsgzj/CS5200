@@ -1,47 +1,55 @@
 <div ui-view></div>
-<h3>User Profile</h3>
-<ul>
-    <ul>UserName: {{profile.Username}}</ul>
-    <ul>Contact:
-        <li ng-repeat="i in profile.Contact">
-            <ul>
-                {{i.Contact}}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+
+            <h3><b>User Profile</b></h3></div>
+        <ul>
+            <ul><label>UserName:</label> {{profile.Username}}</ul>
+            <ul><label>Contact:</label>
+                <li ng-repeat="i in profile.Contact">
+                    <ul>
+                        {{i.Contact}}
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    <ul>
-        Payment
-        <a ui-sref="addpayment">Add</a>
-        <a ui-sref="detailpayment">Detail</a>
-        <li ng-repeat="i in profile.Payment">
             <ul>
-                {{i.CardNumber}}
-                <!--<a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>-->
+                <label> Payment</label>
+                <a ui-sref="addpayment">Add</a>
+                <a ui-sref="detailpayment">Detail</a>
+                <li ng-repeat="i in profile.Payment">
+                    <ul>
+                        {{i.CardNumber}}
+                        <!--<a ui-sref="editpayment({cardNumber: i.CardNumber})">Edit</a>-->
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    <ul>
-        Billing Addresses
-        <li ng-repeat="i in profile.BillingAddress">
             <ul>
-                {{i.Street}}, {{i.City}} {{i.State}}, {{i.ZipCode}}
+                <label>Billing Addresses</label>
+                <li ng-repeat="i in profile.BillingAddress">
+                    <ul>
+                        {{i.Street}}, {{i.City}} {{i.State}}, {{i.ZipCode}}
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    <ul>
-        Shipping Addressses
-        <li ng-repeat="i in profile.ShippingAddress">
             <ul>
-                {{i.Street}}, {{i.City}} {{i.State}}, {{i.ZipCode}}
+                <label>Shipping Addressses</label>
+                <li ng-repeat="i in profile.ShippingAddress">
+                    <ul>
+                        {{i.Street}}, {{i.City}} {{i.State}}, {{i.ZipCode}}
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    <ul>
-        Order History
-        <li ng-repeat="i in profile.Order">
             <ul>
-                <a ui-sref="order({orderid: i.CartOrderId})">{{i.CartOrderId}}</a>
+                <label>Order History</label>
+                <li ng-repeat="i in profile.Order">
+                    <ul>
+                        <a ui-sref="order({orderid: i.CartOrderId})">{{i.CartOrderId}}</a>
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-</ul>
+        </ul>
+
+    </div>
+
+</div>
