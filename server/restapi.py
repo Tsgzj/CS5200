@@ -175,10 +175,9 @@ def addinventory():
         descp=req.get("Description")
         price=req.get("Price")
         discount=req.get("Discount")
-        category=req.get("Category")
         available=req.get("Available")
 
-    resp = insertinventory (title, descp, price, discount, category, available,uid)
+    resp = insertinventory (title, descp, price, discount, available,uid)
 
     return jsonify(resp),200
 

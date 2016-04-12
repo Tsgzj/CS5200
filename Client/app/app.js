@@ -461,8 +461,6 @@ myApp.controller('CheckoutCtrl', ['$scope', '$log', '$state', '$cookies', '$http
         }
 }])
 myApp.controller('ManagerCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.categoptions = ["Electronic", "Fashion", "Home"];
-    $scope.categ = "Electronic";
     $scope.addinv = function() {
         var requestData = {};
         requestData["UserId"] = Number($scope.uid);
@@ -470,7 +468,6 @@ myApp.controller('ManagerCtrl', ['$scope', '$http', function($scope, $http) {
         requestData["Description"] = $scope.descr;
         requestData["Price"] = $scope.price;
         requestData["Discount"] = $scope.disco;
-        requestData["Category"] = $scope.categ;
         requestData["Available"] = $scope.avail;
         $http.post(server + "/inventory" , requestData).success(
             window.alert("Succeeded to add new inventory")
