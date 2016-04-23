@@ -258,6 +258,15 @@ def insertinventory (title, description, price, discount, available,userid):
     result = {"error":"nil"}
     return result
 
+#7.1 Update an inventory
+def updateinventory (title, description, price, discount, available,userid,invid):
+    query = "Update Inventory set title=%s,description=%s,price=%s,discount=%s,available=%s,managedby=%s,category=(SELECT i.Position from InventoryManager i WHERE i.id=%s) where id=%s"
+    args = (title, description, price, discount, available,userid, userid,invid)
+    tray.execute (query, args)
+    dbhandle.commit()
+    result = {"error":"nil"}
+    return result
+
 #8. View shopping cart
 def getshoppingcart(user_id):
     shoppingcart = {"error":"nil"}

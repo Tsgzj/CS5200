@@ -181,6 +181,28 @@ def addinventory():
 
     return jsonify(resp),200
 
+@app.route("/updateinventory", methods=['POST'])
+def editinventory():
+
+    if not request.json:
+        abort(400)
+
+    if request.json:
+        req=request.json
+
+        invid = req.get("InventoryId")
+        uid=req.get("UserId")
+        title=req.get("Title")
+        descp=req.get("Description")
+        price=req.get("Price")
+        discount=req.get("Discount")
+        available=req.get("Available")
+
+    resp = updateinventory (title, descp, price, discount, available,uid,invid)
+
+    return jsonify(resp),200
+
+
 @app.route("/shoppingcart",methods=['GET'])
 def getcart():
 

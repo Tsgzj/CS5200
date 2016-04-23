@@ -162,6 +162,32 @@ myApp = angular.module('myApp', [
                 });
             }
         })
+        .state('checkOrderStatus', {
+            url: "/checkOrderStatus",
+            templateUrl: "static/order.html",
+            params: {
+                uid: null,
+                orderid: null
+            },
+            controller: function ($scope, $http, $cookies, $stateParams) {
+                $http({
+                    method: "GET",
+                    url: server + "/order?UserId=" + $stateParams.uid + "&CartOrderId=" + $stateParams.orderid
+                }).then(function (response) {
+                    $scope.data = response.data;
+                    var sum = 0;
+                    for(var i=0; i<$scope.data.Item.length; i++) {
+                        if (i in $scope.data.Item) {
+                            var s = $scope.data.Item[i];
+                            sum += s.Price * s.Discount * s.Quantity;
+                        }
+                    }
+                    $scope.total = sum;
+                }, function (response) {
+                    window.alert("Cannot find order.")
+                });
+            }
+        })
         .state('orderconfirm', {
             url: "/orderConfirm",
             templateUrl: "static/orderConfirmation.html",
@@ -214,12 +240,27 @@ myApp = angular.module('myApp', [
                 $scope.items = $stateParams.item;
                 $scope.total = $stateParams.total;
                 $scope.shopcCartId = $stateParams.shopcartid;
-                console.log($stateParams.shopCartId)
+                //console.log($stateParams.shopCartId)
             }
         })
         .state('addInventory',{
             url:"/addInventory",
             templateUrl:"static/addInventory.html"
+        })
+        .state('editInventory',{
+            url:"/editInventory",
+            templateUrl:"static/editInventory.html",
+            params: {
+                inventory: {},
+            },
+            controller: function($scope, $stateParams) {
+                $scope.item = $stateParams.inventory;
+                console.log($scope.item);
+            }
+        })
+        .state('checkOrder', {
+            url:"/checkOder",
+            templateUrl:"static/checkOrder.html"
         })
 
 });
@@ -473,6 +514,22 @@ myApp.controller('ManagerCtrl', ['$scope', '$http', function($scope, $http) {
             window.alert("Succeeded to add new inventory")
         ).error(
             window.alert("Failed to add new inventory.")
+        )
+    }
+
+    $scope.editinv = function() {
+        var requestData = {};
+        requestData["UserId"] = Number($scope.uid);
+        requestData["Title"] = $scope.title;
+        requestData["Description"] = $scope.descr;
+        requestData["Price"] = $scope.price;
+        requestData["Discount"] = $scope.disco;
+        requestData["Available"] = $scope.avail;
+        requestData["InventoryId"] = $scope.item.InventoryId;
+        $http.post(server + "/updateinventory" , requestData).success(
+            window.alert("Succeeded to edit new inventory")
+        ).error(
+            window.alert("Failed to edit new inventory.")
         )
     }
 }])
